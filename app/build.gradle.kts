@@ -72,4 +72,7 @@ dependencies {
     val fragment_version = "1.6.2"
 
     implementation("androidx.navigation:navigation-compose:$nav_version")
+
+    // biometric
+    implementation ("androidx.biometric:biometric:1.1.0")
 }

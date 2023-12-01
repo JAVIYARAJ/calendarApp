@@ -1,6 +1,5 @@
 package com.example.calendarapp.screens
 
-import android.content.res.Configuration
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
@@ -26,14 +25,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.calendarapp.Routes
 import com.example.calendarapp.components.CustomTopBar
 import com.example.calendarapp.ui.theme.primaryDarkColor
 import com.example.calendarapp.ui.theme.primaryLightColor
-import com.example.jetpackdesign.util.Constant
+import com.example.calendarapp.util.Constant
 import com.example.jetpackdesign.util.ModifierConstant
 import com.example.jetpackdesign.util.Util
 
