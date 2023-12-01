@@ -59,6 +59,7 @@ import com.example.calendarapp.components.DayCard
 import com.example.calendarapp.ui.theme.primaryDarkColor
 import com.example.calendarapp.ui.theme.primaryLightColor
 import com.example.jetpackdesign.util.Constant
+import com.example.jetpackdesign.util.Constant.Companion.DAYS_TITLE
 import com.example.jetpackdesign.util.ModifierConstant
 import com.example.jetpackdesign.util.Util
 
@@ -75,7 +76,7 @@ fun CalendarMonthScreen(yearValue: Int?, monthValue: Int?) {
 @Composable
 fun MonthView(yearValue: Int?, monthValue: Int?) {
 
-    val listOfDaysTitle = listOf("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat")
+    val listOfDaysTitle = DAYS_TITLE
 
     val currentMonth = monthValue ?: Util.getMonth()
     val currentYear = yearValue ?: Util.getYear()
@@ -232,12 +233,12 @@ fun MonthView(yearValue: Int?, monthValue: Int?) {
                         tint = if (isSystemInDarkTheme()) primaryDarkColor else primaryLightColor
                     )
                 }
-                if (currentMonth==month && selectedDay != -1 && selectedDay != currentDay) {
+                if (currentMonth == month && selectedDay != -1 && selectedDay != currentDay) {
                     CurrentMonthCard(currentDay.toString(), onTap = {
-                        isDayCardShow=false
+                        isDayCardShow = false
                         selectedDay = -1
                         currentDay = Util.getDay()
-                    }, modifier = Modifier.offset(0.dp,dayCardOffset))
+                    }, modifier = Modifier.offset(0.dp, dayCardOffset))
                 }
             }
             Spacer(modifier = Modifier.height(10.dp))
@@ -300,7 +301,7 @@ fun MonthView(yearValue: Int?, monthValue: Int?) {
                             day = dayValue.toString(),
                             isCurrentDay = selectedDay == -1 && isSameMonth && dayValue == currentDay,
                             onTap = {
-                                isDayCardShow=true
+                                isDayCardShow = true
                                 selectedDay = dayValue
 
                                 if (selectedDay == currentDay) {
@@ -335,7 +336,7 @@ fun MonthView(yearValue: Int?, monthValue: Int?) {
 
 
 @Composable
-fun CurrentMonthCard(day: String, onTap: () -> Unit,modifier: Modifier=Modifier) {
+fun CurrentMonthCard(day: String, onTap: () -> Unit, modifier: Modifier = Modifier) {
 
     val colors = listOf(Color(0XFFCB4303), Color(0xFFA569BD), Color(0xFFF4D03F))
 

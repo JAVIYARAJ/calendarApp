@@ -9,13 +9,17 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.calendarapp.screens.CalendarMonthScreen
 import com.example.calendarapp.screens.CalendarYearScreen
+import com.example.calendarapp.screens.HomeScreen
 import com.example.calendarapp.ui.theme.CalendarAppTheme
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun NavigationGraph(controller: NavHostController) {
 
-    NavHost(navController = controller, startDestination = Routes.YearViewScreen.route) {
+    NavHost(navController = controller, startDestination = Routes.HomeScreen.route) {
+        composable(Routes.HomeScreen.route) {
+            HomeScreen()
+        }
         composable(Routes.YearViewScreen.route) {
             CalendarAppTheme {
                 CalendarYearScreen(controller = controller)
@@ -28,5 +32,6 @@ fun NavigationGraph(controller: NavHostController) {
                 CalendarMonthScreen(yearValue = year?.toInt(), monthValue = month?.toInt())
             }
         }
+
     }
 }

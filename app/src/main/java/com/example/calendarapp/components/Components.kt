@@ -87,7 +87,7 @@ fun DayCard(
 ) {
 
     val colors = listOf(Color(0XFFCB4303), Color(0xFFA569BD), Color(0xFFF4D03F))
-
+    
     Surface(
         shape = CircleShape,
         color = if (isCurrentDay)
