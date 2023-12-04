@@ -1,9 +1,9 @@
 package com.example.jetpackdesign.util
 
 import android.os.Build
-import android.util.Log
 import android.util.Patterns
 import androidx.annotation.RequiresApi
+import com.example.calendarapp.util.Constant
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.YearMonth
@@ -56,5 +56,54 @@ class Util {
             return currentDate.dayOfMonth
         }
 
+        fun getCurrentWeekDates(): List<String> {
+            val calendar = Calendar.getInstance()
+
+            val currentDayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)//total 7 days - get current day of weak
+            val daysInWeek = 7
+            val days = mutableListOf<String>()
+
+            for (i in 1..daysInWeek) {
+                val difference = i - currentDayOfWeek
+                calendar.add(Calendar.DAY_OF_MONTH, difference)
+
+                val date = SimpleDateFormat("dd", Locale.getDefault()).format(calendar.time)
+
+                days.add(date)
+
+                // Reset the calendar for the next iteration
+                calendar.add(Calendar.DAY_OF_MONTH, -difference)
+            }
+
+            return days
+        }
+
+        fun get7WeakDaysDates(): ArrayList<ArrayList<String>> {
+            val calendar = Calendar.getInstance()
+
+            val daysInWeek = 7
+            val weeksInAdvance =6
+
+            val allDays= ArrayList<ArrayList<String>>()
+
+            for (week in 1..weeksInAdvance) {
+                val dates = ArrayList<String>()
+                for (day in 1..daysInWeek) {
+                    val difference = day - calendar.get(Calendar.DAY_OF_WEEK)
+                    calendar.add(Calendar.DAY_OF_MONTH, difference)
+
+                    val date = SimpleDateFormat("dd", Locale.getDefault()).format(calendar.time)
+                    dates.add(date)
+
+                    // Reset the calendar for the next iteration
+                    calendar.add(Calendar.DAY_OF_MONTH, -difference)
+                }
+                allDays.add(dates)
+                // Move to the next week
+                calendar.add(Calendar.WEEK_OF_YEAR, 1)
+            }
+
+            return allDays
+        }
     }
 }

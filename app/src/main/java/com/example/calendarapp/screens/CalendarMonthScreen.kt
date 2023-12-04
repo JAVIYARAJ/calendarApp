@@ -51,15 +51,14 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.calendarapp.components.DayCard
 import com.example.calendarapp.ui.theme.primaryDarkColor
 import com.example.calendarapp.ui.theme.primaryLightColor
-import com.example.jetpackdesign.util.Constant
-import com.example.jetpackdesign.util.Constant.Companion.DAYS_TITLE
+import com.example.calendarapp.util.Constant
+import com.example.calendarapp.util.Constant.Companion.DAYS_TITLE
 import com.example.jetpackdesign.util.ModifierConstant
 import com.example.jetpackdesign.util.Util
 
@@ -233,7 +232,7 @@ fun MonthView(yearValue: Int?, monthValue: Int?) {
                         tint = if (isSystemInDarkTheme()) primaryDarkColor else primaryLightColor
                     )
                 }
-                if (currentMonth == month && selectedDay != -1 && selectedDay != currentDay) {
+                if (Util.getMonth() == month && selectedDay != -1 && selectedDay != currentDay) {
                     CurrentMonthCard(currentDay.toString(), onTap = {
                         isDayCardShow = false
                         selectedDay = -1
