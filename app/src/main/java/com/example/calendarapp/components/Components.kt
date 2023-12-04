@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.dp
 import com.example.calendarapp.ui.theme.eventCardLightColor
 import com.example.calendarapp.ui.theme.primaryDarkColor
 import com.example.calendarapp.ui.theme.primaryLightColor
-import com.example.jetpackdesign.util.ModifierConstant.widthModifier
+import com.example.calendarapp.util.UiConstant.widthModifier
 
 
 @Composable

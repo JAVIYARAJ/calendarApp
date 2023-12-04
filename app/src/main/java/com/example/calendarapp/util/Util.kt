@@ -1,4 +1,4 @@
-package com.example.jetpackdesign.util
+package com.example.calendarapp.util
 
 import android.os.Build
 import android.util.Patterns

@@ -1,4 +1,4 @@
-package com.example.calendarapp.screens
+package com.example.calendarapp.screens.main
 
 import android.os.Build
 import android.util.Log
@@ -59,8 +59,8 @@ import com.example.calendarapp.ui.theme.primaryDarkColor
 import com.example.calendarapp.ui.theme.primaryLightColor
 import com.example.calendarapp.util.Constant
 import com.example.calendarapp.util.Constant.Companion.DAYS_TITLE
-import com.example.jetpackdesign.util.ModifierConstant
-import com.example.jetpackdesign.util.Util
+import com.example.calendarapp.util.UiConstant
+import com.example.calendarapp.util.Util
 
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -208,7 +208,7 @@ fun MonthView(yearValue: Int?, monthValue: Int?) {
                     Text(
                         text = it,
                         style = MaterialTheme.typography.titleLarge,
-                        modifier = ModifierConstant.widthModifier,
+                        modifier = UiConstant.widthModifier,
                         textAlign = TextAlign.Center,
                         color = if (isSystemInDarkTheme()) primaryDarkColor else primaryLightColor
                     )

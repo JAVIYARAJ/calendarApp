@@ -69,10 +69,14 @@ dependencies {
 
     //navigation
     val nav_version = "2.7.5"
-    val fragment_version = "1.6.2"
-
     implementation("androidx.navigation:navigation-compose:$nav_version")
 
     // biometric
     implementation ("androidx.biometric:biometric:1.1.0")
+
+    //constraint layout
+    implementation ("androidx.constraintlayout:constraintlayout-compose:1.0.1")
+
+    //Accompanist
+    implementation ("com.google.accompanist:accompanist-systemuicontroller:0.31.4-beta")
 }
