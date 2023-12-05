@@ -5,7 +5,11 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActionScope
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -18,6 +22,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import com.example.calendarapp.R
@@ -52,8 +57,13 @@ fun UserInput(
         ),
         textStyle = hintStyle,
         modifier = modifier,
-        keyboardOptions = KeyboardOptions(keyboardType = if (isPassword) KeyboardType.Password else KeyboardType.Email, imeAction =if(isPassword) ImeAction.Done else ImeAction.Next),
-        keyboardActions = if (isPassword) KeyboardActions(onDone = imeAction) else KeyboardActions(onNext = imeAction)
+        keyboardOptions = KeyboardOptions(
+            keyboardType = if (isPassword) KeyboardType.Password else KeyboardType.Email,
+            imeAction = if (isPassword) ImeAction.Done else ImeAction.Next
+        ),
+        keyboardActions = if (isPassword) KeyboardActions(onDone = imeAction) else KeyboardActions(
+            onNext = imeAction
+        )
     )
 }
 
@@ -67,7 +77,9 @@ fun UserInputPassword(
     hintStyle: TextStyle = MaterialTheme.typography.titleMedium.copy(color = MaterialTheme.colorScheme.background),
     inSingleLine: Boolean = true,
     isPasswordShow: Boolean = false,
-    passwordIconChange: () -> Unit
+    passwordIconChange: () -> Unit,
+    isConfirmPassword:Boolean=false,
+    imeAction:()->Unit
 ) {
     TextField(
         value = value,
@@ -89,16 +101,20 @@ fun UserInputPassword(
         modifier = modifier,
         trailingIcon = {
             IconButton(onClick = passwordIconChange) {
-                Image(
-                    painter = painterResource(id = if (isPasswordShow) R.drawable.ic_open_eye_icon else R.drawable.ic_close_eye_icon),
-                    contentDescription = "eye_icon"
+                Icon(
+                    imageVector = if (isPasswordShow) Icons.Default.Visibility else Icons.Default.VisibilityOff,
+                    contentDescription = "eye_icon",
+                    tint = MaterialTheme.colorScheme.background
                 )
             }
         },
-        visualTransformation = VisualTransformation.None,
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
-        keyboardActions = KeyboardActions(onNext = {
-
+        visualTransformation =if(isPasswordShow) VisualTransformation.None else PasswordVisualTransformation(),
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password, imeAction = if(isConfirmPassword) ImeAction.Done else ImeAction.Next),
+        keyboardActions = KeyboardActions(onDone = {
+            imeAction.invoke()
+        }, onNext = {
+            imeAction.invoke()
         })
+
     )
 }

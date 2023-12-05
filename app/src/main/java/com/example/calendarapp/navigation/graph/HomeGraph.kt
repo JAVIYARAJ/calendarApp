@@ -3,17 +3,15 @@ package com.example.calendarapp.navigation.graph
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.calendarapp.navigation.Routes
+import com.example.calendarapp.navigation.routes.Routes
 import com.example.calendarapp.screens.main.BookmarkScreen
-import com.example.calendarapp.screens.main.CalendarMonthScreen
 import com.example.calendarapp.screens.main.CalendarYearScreen
 import com.example.calendarapp.screens.main.HomeScreen
 import com.example.calendarapp.screens.main.ProfileScreen
-import com.example.calendarapp.util.Util
+import com.example.calendarapp.screens.main.TaskGroupScreen
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -40,5 +38,8 @@ fun HomeGraph(homeNavController: NavHostController) {
             ProfileScreen()
         }
 
+        composable(Routes.HomeTaskGroupRoutes.route){
+            TaskGroupScreen(controller = homeNavController)
+        }
     }
 }

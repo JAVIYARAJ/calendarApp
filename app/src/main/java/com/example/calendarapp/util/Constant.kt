@@ -9,5 +9,6 @@ class Constant {
         val MONTH_LIST= listOf("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December")
         val DAYS_TITLE = listOf("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat")
 
+        const val PASSWORD_STRONG_COUNT=5
     }
 }

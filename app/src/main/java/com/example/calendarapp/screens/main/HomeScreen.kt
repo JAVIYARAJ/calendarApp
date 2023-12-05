@@ -31,6 +31,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -53,6 +54,7 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavHostController
 import com.example.calendarapp.R
+import com.example.calendarapp.navigation.routes.Routes
 import com.example.calendarapp.ui.theme.primaryDarkColor
 import com.example.calendarapp.ui.theme.primaryLightColor
 import com.example.calendarapp.util.ExtensionFunction.Companion.postPercentage
@@ -111,6 +113,7 @@ fun HomeScreen(controller: NavHostController) {
 
     val taskGroupList= listOf(
         TaskGroupItem(
+            id = "1",
             title = "Office Project",
             taskSize = 50,
             completedTaskSize = 12,
@@ -118,6 +121,7 @@ fun HomeScreen(controller: NavHostController) {
             taskGridColor = Color(0XFF9B59B6)
         ),
         TaskGroupItem(
+            id = "2",
             title = "Personal Project",
             taskSize = 20,
             completedTaskSize = 2,
@@ -125,6 +129,7 @@ fun HomeScreen(controller: NavHostController) {
             taskGridColor = Color(0XFFD68910)
         ),
         TaskGroupItem(
+            id = "3",
             title = "Home",
             taskSize = 35,
             completedTaskSize = 9,
@@ -132,10 +137,18 @@ fun HomeScreen(controller: NavHostController) {
             taskGridColor = Color(0XFF3498DB)
         ),
         TaskGroupItem(
+            id = "4",
             title = "Daily Task",
             taskSize = 50,
             completedTaskSize = 12,
             taskGroupIcon = R.drawable.ic_daily_task_group_icon
+        ),
+        TaskGroupItem(
+            id = "5",
+            title = "Data structure",
+            taskSize = 12,
+            completedTaskSize = 2,
+            taskGridColor = Color(0XFF48C9B0)
         )
     )
 
@@ -145,14 +158,22 @@ fun HomeScreen(controller: NavHostController) {
     Column(modifier = Modifier.fillMaxSize()) {
         TopHomeHeadline()
         ProgressCard()
-        Text(
-            text = "Task Groups",
-            style = MaterialTheme.typography.titleMedium,
-            color = MaterialTheme.colorScheme.primaryContainer,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = horizontalMargin, vertical = verticalMargin)
-        )
+        Row(modifier = widthModifier.padding(horizontal = 10.dp, vertical = 5.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
+            Text(
+                text = "Task Groups",
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.primaryContainer,
+            )
+            TextButton(onClick = {
+                controller.navigate(Routes.HomeTaskGroupRoutes.route)
+            }) {
+                Text(
+                    text = "view more",
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.primaryContainer,
+                )
+            }
+        }
         repeat(taskGroupList.size) {
             TaskGroupCard(taskGroupList[it])
         }
@@ -315,16 +336,7 @@ fun TaskGroupCard(taskGroupItem:TaskGroupItem) {
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Image(
-                painter = painterResource(id = taskGroupItem.taskGroupIcon),
-                contentDescription = "",
-                modifier = Modifier
-                    .size(50.dp)
-                    .clip(
-                        CircleShape
-                    ),
-                contentScale = ContentScale.Crop
-            )
+            Text(text = "#${taskGroupItem.id}", style = MaterialTheme.typography.headlineMedium.copy(fontFamily = robotoFontFamily))
             Spacer(modifier = Modifier.width(20.dp))
             Column(modifier = Modifier.weight(5f)) {
                 Text(
@@ -349,6 +361,7 @@ fun TaskGroupCard(taskGroupItem:TaskGroupItem) {
 
 
 data class TaskGroupItem(
+    val id:String,
     val title: String,
     val taskSize: Int,
     val completedTaskSize: Int,

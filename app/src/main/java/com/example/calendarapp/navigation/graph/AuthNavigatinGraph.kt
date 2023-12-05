@@ -4,7 +4,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import com.example.calendarapp.navigation.Routes
+import com.example.calendarapp.navigation.routes.Routes
 import com.example.calendarapp.screens.auth.ForgotScreen
 import com.example.calendarapp.screens.auth.LoginScreen
 import com.example.calendarapp.screens.auth.RegisterScreen

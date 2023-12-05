@@ -32,7 +32,6 @@ fun HomeContentScreen() {
         }
     ) {
         HomeGraph(homeNavController = homeNavHostController)
-
     }
 }
 

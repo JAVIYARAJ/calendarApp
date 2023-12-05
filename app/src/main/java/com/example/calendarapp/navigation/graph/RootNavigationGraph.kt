@@ -6,7 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.calendarapp.navigation.Routes
+import com.example.calendarapp.navigation.routes.Routes
 import com.example.calendarapp.screens.main.HomeContentScreen
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -15,7 +15,7 @@ fun RootNavigationGraph(rootNavController: NavHostController) {
     NavHost(
         navController = rootNavController,
         route = Routes.RootRoute.route,
-        startDestination = Routes.AuthRootRoutes.route,
+        startDestination = Routes.HomeRootRoute.route,
     ) {
 
         //auth routes

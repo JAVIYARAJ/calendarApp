@@ -71,6 +71,8 @@ dependencies {
     val nav_version = "2.7.5"
     implementation("androidx.navigation:navigation-compose:$nav_version")
 
+    implementation ("androidx.compose.material:material-icons-extended:1.5.4")
+
     // biometric
     implementation ("androidx.biometric:biometric:1.1.0")
 
@@ -79,4 +81,5 @@ dependencies {
 
     //Accompanist
     implementation ("com.google.accompanist:accompanist-systemuicontroller:0.31.4-beta")
+
 }

@@ -1,9 +1,13 @@
 package com.example.calendarapp.util
 
 import android.os.Build
-import android.util.Patterns
 import androidx.annotation.RequiresApi
-import com.example.calendarapp.util.Constant
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHostState
+import com.example.calendarapp.util.ExtensionFunction.Companion.isEmailValid
+import com.example.calendarapp.util.ExtensionFunction.Companion.isPasswordStrong
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.YearMonth
@@ -14,10 +18,6 @@ import java.util.Locale
 class Util {
 
     companion object {
-
-        fun String.isEmailValid(): Boolean {
-            return Patterns.EMAIL_ADDRESS.matcher(this).find()
-        }
 
         fun defaultDate(): String {
             val dateFormat = SimpleDateFormat(Constant.STANDARD_FORMAT, Locale.getDefault())
@@ -59,7 +59,8 @@ class Util {
         fun getCurrentWeekDates(): List<String> {
             val calendar = Calendar.getInstance()
 
-            val currentDayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)//total 7 days - get current day of weak
+            val currentDayOfWeek =
+                calendar.get(Calendar.DAY_OF_WEEK)//total 7 days - get current day of weak
             val daysInWeek = 7
             val days = mutableListOf<String>()
 
@@ -82,9 +83,9 @@ class Util {
             val calendar = Calendar.getInstance()
 
             val daysInWeek = 7
-            val weeksInAdvance =6
+            val weeksInAdvance = 6
 
-            val allDays= ArrayList<ArrayList<String>>()
+            val allDays = ArrayList<ArrayList<String>>()
 
             for (week in 1..weeksInAdvance) {
                 val dates = ArrayList<String>()
@@ -105,5 +106,85 @@ class Util {
 
             return allDays
         }
+
+        fun validateEmailAndPassword(
+            email: String,
+            password: String,
+            scope: CoroutineScope,
+            snackState: SnackbarHostState,
+            onSuccess: () -> Unit
+        ) {
+
+            when {
+                email.isEmpty() -> showSnackBar("enter your email", snackState, scope)
+                !email.isEmailValid() -> showSnackBar("enter your valid email", snackState, scope)
+                password.isEmpty() -> showSnackBar("enter your password", snackState, scope)
+                !password.isPasswordStrong() -> showSnackBar(
+                    "enter your strong password\nat least 5 character required",
+                    snackState,
+                    scope
+                )
+
+                else -> {
+                    onSuccess.invoke()
+                }
+            }
+
+        }
+
+        fun validateRegisterData(
+            name: String,
+            email: String,
+            password: String,
+            confirmPassword: String,
+            taskGroup: String,
+            scope: CoroutineScope,
+            snackState: SnackbarHostState,
+            onSuccess: () -> Unit
+        ) {
+            when {
+                name.isEmpty() -> showSnackBar("enter your name", snackState, scope)
+                email.isEmpty() -> showSnackBar("enter your email", snackState, scope)
+                !email.isEmailValid() -> showSnackBar("enter your valid email", snackState, scope)
+                taskGroup.isEmpty() -> showSnackBar("enter your task group name", snackState, scope)
+                password.isEmpty() -> showSnackBar("enter your password", snackState, scope)
+                confirmPassword.isEmpty() -> showSnackBar(
+                    "enter your confirm password",
+                    snackState,
+                    scope
+                )
+
+                !password.isPasswordStrong() -> showSnackBar(
+                    "enter your strong password\nat least 5 character required",
+                    snackState,
+                    scope
+                )
+
+                password != confirmPassword -> showSnackBar(
+                    "password not match",
+                    snackState,
+                    scope
+                )
+
+                else -> {
+                    onSuccess.invoke()
+                }
+            }
+        }
+
+        private fun showSnackBar(
+            message: String,
+            snackState: SnackbarHostState,
+            scope: CoroutineScope
+        ) {
+            scope.launch {
+                snackState.showSnackbar(
+                    message = message,
+                    duration = SnackbarDuration.Short,
+                    withDismissAction = true
+                )
+            }
+        }
+
     }
 }

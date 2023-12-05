@@ -1,4 +1,4 @@
-package com.example.calendarapp.navigation
+package com.example.calendarapp.navigation.routes
 
 sealed class Routes(val route: String) {
 
@@ -14,6 +14,9 @@ sealed class Routes(val route: String) {
         object HomeRootRoute: Routes(route = "home_root_route")
 
             object HomeRoute: Routes(route = "home_route")
+
+                object HomeTaskGroupRoutes:Routes(route = "home_task_group_route")
+
             object CalendarRoute: Routes(route = "calendar_route")
             object BookmarkRoute: Routes(route = "bookmark_route")
             object TaskRoute: Routes(route = "task_route")
