@@ -300,7 +300,10 @@ fun LoginScreen(controller: NavHostController, onLoginClick: () -> Unit) {
                     style = MaterialTheme.typography.titleMedium.copy(
                         color = Color.Blue,
                         fontSize = 18.sp
-                    )
+                    ),
+                    modifier = Modifier.clickable {
+                        controller.navigate(Routes.RegisterRoute.route)
+                    }
                 )
 
             }

@@ -21,7 +21,7 @@ fun NavGraphBuilder.authNavigationGraph(authNavController: NavHostController) {
             })
         }
         composable(Routes.RegisterRoute.route) {
-            RegisterScreen()
+            RegisterScreen(authNavController)
         }
         composable(Routes.ForgotRoute.route) {
             ForgotScreen()

@@ -2,6 +2,7 @@ package com.example.calendarapp.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActionScope
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -15,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
@@ -30,7 +32,7 @@ fun UserInput(
     modifier: Modifier,
     inSingleLine: Boolean = true,
     isPassword: Boolean = false,
-    imeAction: () -> Unit
+    imeAction: (KeyboardActionScope) -> Unit
 ) {
     TextField(
         value = value,
@@ -50,12 +52,8 @@ fun UserInput(
         ),
         textStyle = hintStyle,
         modifier = modifier,
-        keyboardOptions = KeyboardOptions(keyboardType = if (isPassword) KeyboardType.Password else KeyboardType.Email),
-        keyboardActions = if (isPassword) KeyboardActions(onDone = {
-            imeAction()
-        }) else KeyboardActions(onNext = {
-            imeAction()
-        })
+        keyboardOptions = KeyboardOptions(keyboardType = if (isPassword) KeyboardType.Password else KeyboardType.Email, imeAction =if(isPassword) ImeAction.Done else ImeAction.Next),
+        keyboardActions = if (isPassword) KeyboardActions(onDone = imeAction) else KeyboardActions(onNext = imeAction)
     )
 }
 
