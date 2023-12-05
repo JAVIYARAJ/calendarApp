@@ -12,6 +12,7 @@ import com.example.calendarapp.screens.main.CalendarYearScreen
 import com.example.calendarapp.screens.main.HomeScreen
 import com.example.calendarapp.screens.main.ProfileScreen
 import com.example.calendarapp.screens.main.TaskGroupScreen
+import com.example.calendarapp.screens.main.TaskScreen
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -35,7 +36,7 @@ fun HomeGraph(homeNavController: NavHostController) {
         }
 
         composable(Routes.TaskRoute.route) {
-            ProfileScreen()
+            TaskScreen()
         }
 
         composable(Routes.HomeTaskGroupRoutes.route){

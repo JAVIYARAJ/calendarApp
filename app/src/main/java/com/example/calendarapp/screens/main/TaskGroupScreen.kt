@@ -1,6 +1,5 @@
 package com.example.calendarapp.screens.main
 
-import android.graphics.Color
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -9,7 +8,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.consumedWindowInsets
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,24 +16,18 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.MoreHoriz
-import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.Divider
-import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.isTraceInProgress
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -366,7 +358,7 @@ fun StatusCard() {
 @Preview
 @Composable
 fun TaskGroupV1() {
-    val listOfTaskStatus = listOf("In Progress", "In Review", "In Hold", "Canceled")
+    val listOfTaskStatus = listOf("In Progress", "In Review", "On Hold", "Canceled")
 
     val cardColor=if(isSystemInDarkTheme()) primaryDarkColor else primaryLightColor
 
@@ -500,7 +492,7 @@ fun TaskGroupV1() {
                     )
                     IconButton(onClick = {}) {
                         Icon(
-                            imageVector = Icons.Default.MoreHoriz,
+                            imageVector = Icons.Default.MoreVert,
                             contentDescription = "",
                             tint = MaterialTheme.colorScheme.background
                         )
@@ -511,4 +503,12 @@ fun TaskGroupV1() {
         }
     }
 
+}
+
+@Preview
+@Composable
+fun TaskItemDesign() {
+    Surface(shape = RoundedCornerShape(10.dp)) {
+
+    }
 }
