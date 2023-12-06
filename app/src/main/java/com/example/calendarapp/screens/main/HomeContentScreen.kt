@@ -31,7 +31,8 @@ fun HomeContentScreen() {
             CustomBottomAppBar(homeNavHostController)
         }
     ) {
-        HomeGraph(homeNavController = homeNavHostController)
+        HomeGraph(homeNavController = homeNavHostController, onChange = {
+
+        })
     }
 }
-

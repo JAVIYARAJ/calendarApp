@@ -20,5 +20,6 @@ sealed class Routes(val route: String) {
             object CalendarRoute: Routes(route = "calendar_route")
             object BookmarkRoute: Routes(route = "bookmark_route")
             object TaskRoute: Routes(route = "task_route")
+            object HistoryRoute: Routes(route = "history_route")
 
 }

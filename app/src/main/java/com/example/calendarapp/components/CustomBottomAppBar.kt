@@ -4,10 +4,16 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccessTime
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.filled.TaskAlt
+import androidx.compose.material.icons.outlined.AccessTime
+import androidx.compose.material.icons.outlined.DateRange
+import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.Star
+import androidx.compose.material.icons.outlined.TaskAlt
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -35,6 +41,7 @@ fun CustomBottomAppBar(navController: NavHostController) {
         BottomScreens.Calendar,
         BottomScreens.BookMark,
         BottomScreens.Task,
+        BottomScreens.History,
     )
 
     val backStackEntry by navController.currentBackStackEntryAsState()
@@ -51,16 +58,17 @@ fun CustomBottomAppBar(navController: NavHostController) {
             containerColor = if (isSystemInDarkTheme()) primaryDarkColor else primaryLightColor
         ) {
             bottomScreenItems.forEach { screen ->
+                val isSelected=currentDestination?.hierarchy?.any { it.route == screen.routes } == true
                 NavigationBarItem(
                     label = { Text(text = screen.title) },
-                    selected = currentDestination?.hierarchy?.any { it.route == screen.routes } == true,
+                    selected = isSelected,
                     onClick = {
                         navController.navigate(screen.routes) {
                             popUpTo(navController.graph.findStartDestination().id)
                             launchSingleTop = true
                         }
                     },
-                    icon = { Icon(imageVector = screen.icon, contentDescription = screen.title) },
+                    icon = { Icon(imageVector = if(isSelected) screen.selectedIcon else screen.unSelectedIcon, contentDescription = screen.title) },
                     modifier = Modifier.clip(CircleShape),
                 )
             }
@@ -71,30 +79,43 @@ fun CustomBottomAppBar(navController: NavHostController) {
 sealed class BottomScreens(
     val routes: String,
     val title: String,
-    val icon: ImageVector
+    val selectedIcon: ImageVector,
+    val unSelectedIcon: ImageVector,
 ) {
     object Home : BottomScreens(
         routes = Routes.HomeRoute.route,
         title = "Home",
-        icon = Icons.Default.Home
+        selectedIcon = Icons.Filled.Home,
+        unSelectedIcon = Icons.Outlined.Home,
     )
 
     object Calendar : BottomScreens(
         routes = Routes.CalendarRoute.route,
         title = "Calendar",
-        icon = Icons.Default.DateRange
+        selectedIcon = Icons.Default.DateRange,
+        unSelectedIcon = Icons.Outlined.DateRange,
     )
 
     object BookMark : BottomScreens(
         routes = Routes.BookmarkRoute.route,
         title = "Bookmark",
-        icon = Icons.Default.Star
+        selectedIcon = Icons.Default.Star,
+        unSelectedIcon = Icons.Outlined.Star,
     )
 
     object Task : BottomScreens(
         routes = Routes.TaskRoute.route,
         title = "Task",
-        icon = Icons.Default.ShoppingCart
+        selectedIcon = Icons.Filled.TaskAlt,
+        unSelectedIcon = Icons.Outlined.TaskAlt,
     )
+
+    object History : BottomScreens(
+        routes = Routes.HistoryRoute.route,
+        title = "History",
+        selectedIcon = Icons.Filled.AccessTime,
+        unSelectedIcon = Icons.Outlined.AccessTime,
+    )
+
 
 }
