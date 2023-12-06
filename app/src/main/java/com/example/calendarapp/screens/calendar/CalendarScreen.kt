@@ -1,4 +1,4 @@
-package com.example.calendarapp.screens.main
+package com.example.calendarapp.screens.calendar
 
 import androidx.compose.runtime.Composable
 

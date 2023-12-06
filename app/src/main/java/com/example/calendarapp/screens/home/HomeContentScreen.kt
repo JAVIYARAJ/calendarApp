@@ -1,4 +1,4 @@
-package com.example.calendarapp.screens.main
+package com.example.calendarapp.screens.home
 
 import android.annotation.SuppressLint
 import android.os.Build

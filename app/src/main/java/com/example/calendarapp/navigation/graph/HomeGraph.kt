@@ -7,14 +7,12 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.calendarapp.navigation.routes.Routes
-import com.example.calendarapp.screens.main.BookmarkScreen
-import com.example.calendarapp.screens.main.CalendarMonthScreen
-import com.example.calendarapp.screens.main.CalendarYearScreen
-import com.example.calendarapp.screens.main.HistoryScreen
-import com.example.calendarapp.screens.main.HomeScreen
-import com.example.calendarapp.screens.main.ProfileScreen
-import com.example.calendarapp.screens.main.TaskGroupScreen
-import com.example.calendarapp.screens.main.TaskScreen
+import com.example.calendarapp.screens.bookmark.BookmarkScreen
+import com.example.calendarapp.screens.calendar.CalendarMonthScreen
+import com.example.calendarapp.screens.history.HistoryScreen
+import com.example.calendarapp.screens.home.HomeScreen
+import com.example.calendarapp.screens.task.TaskGroupScreen
+import com.example.calendarapp.screens.task.TaskScreen
 import com.example.calendarapp.util.Util
 
 @RequiresApi(Build.VERSION_CODES.O)

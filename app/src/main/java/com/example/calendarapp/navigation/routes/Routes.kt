@@ -4,7 +4,10 @@ sealed class Routes(val route: String) {
 
     object RootRoute: Routes(route = "root_route")
 
-        object AuthRootRoutes: Routes(route = "auth_root_route")
+    object OnBoardingRoutes: Routes(route = "onBoarding_root_route")
+
+
+    object AuthRootRoutes: Routes(route = "auth_root_route")
 
             object LoginRoute: Routes(route = "login_route")
             object RegisterRoute: Routes(route = "register_route")

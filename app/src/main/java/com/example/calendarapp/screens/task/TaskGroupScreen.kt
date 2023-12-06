@@ -1,4 +1,4 @@
-package com.example.calendarapp.screens.main
+package com.example.calendarapp.screens.task
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -20,7 +20,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreHoriz
-import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -45,7 +44,6 @@ import com.example.calendarapp.components.CustomScreenTopNavBar
 import com.example.calendarapp.ui.theme.completedTaskColor
 import com.example.calendarapp.ui.theme.inProgressTaskColor
 import com.example.calendarapp.ui.theme.inReviewTaskColor
-import com.example.calendarapp.ui.theme.onCancelTaskColor
 import com.example.calendarapp.ui.theme.onHoldTaskColor
 import com.example.calendarapp.ui.theme.primaryDarkColor
 import com.example.calendarapp.ui.theme.primaryLightColor

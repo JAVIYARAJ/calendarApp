@@ -1,4 +1,4 @@
-package com.example.calendarapp.screens.main
+package com.example.calendarapp.screens.history
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable

@@ -1,7 +1,6 @@
-package com.example.calendarapp.screens.main
+package com.example.calendarapp.screens.home
 
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -323,7 +322,7 @@ fun CustomProgressBar(
 
 
 @Composable
-fun TaskGroupCard(taskGroupItem:TaskGroupItem) {
+fun TaskGroupCard(taskGroupItem: TaskGroupItem) {
     Surface(
         modifier = widthModifier
             .height(80.dp)

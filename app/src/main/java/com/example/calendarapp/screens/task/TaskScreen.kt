@@ -1,4 +1,4 @@
-package com.example.calendarapp.screens.main
+package com.example.calendarapp.screens.task
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
