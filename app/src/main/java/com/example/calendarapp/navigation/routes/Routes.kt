@@ -12,6 +12,10 @@ sealed class Routes(val route: String) {
             object LoginRoute: Routes(route = "login_route")
             object RegisterRoute: Routes(route = "register_route")
             object ForgotRoute: Routes(route = "forgot_route")
+                    object ForgotOtpSendRoute: Routes(route = "forgot_otp_send_route")
+                    object ForgotOtpVerifyRoute: Routes(route = "forgot_otp_verify_route")
+                    object ConfirmPasswordRoute: Routes(route = "confirm_password_route")
+
 
 
         object HomeRootRoute: Routes(route = "home_root_route")

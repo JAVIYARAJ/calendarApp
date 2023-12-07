@@ -5,7 +5,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.example.calendarapp.navigation.routes.Routes
-import com.example.calendarapp.screens.auth.ForgotScreen
 import com.example.calendarapp.screens.auth.LoginScreen
 import com.example.calendarapp.screens.auth.RegisterScreen
 
@@ -23,8 +22,6 @@ fun NavGraphBuilder.authNavigationGraph(authNavController: NavHostController) {
         composable(Routes.RegisterRoute.route) {
             RegisterScreen(authNavController)
         }
-        composable(Routes.ForgotRoute.route) {
-            ForgotScreen()
-        }
+        forgotNavigationGraph(authNavController)
     }
 }

@@ -32,6 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -39,11 +40,16 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import com.example.calendarapp.R
-import com.example.calendarapp.components.CustomAuthButton
-import com.example.calendarapp.components.CustomTextButton
-import com.example.calendarapp.components.UserInput
-import com.example.calendarapp.components.UserInputPassword
 import com.example.calendarapp.navigation.routes.Routes
+import com.example.calendarapp.screens.auth.widgets.AuthBottomAccountStatusWidget
+import com.example.calendarapp.screens.auth.widgets.AuthContinueLabelWidget
+import com.example.calendarapp.screens.auth.widgets.AuthSocialAccountWidget
+import com.example.calendarapp.screens.auth.widgets.AuthTopTitleWidget
+import com.example.calendarapp.screens.auth.widgets.CustomAuthButton
+import com.example.calendarapp.screens.auth.widgets.CustomTextButton
+import com.example.calendarapp.screens.common.widgets.ProgressIndicator
+import com.example.calendarapp.screens.common.widgets.UserInput
+import com.example.calendarapp.screens.common.widgets.UserInputPassword
 import com.example.calendarapp.ui.theme.primaryDarkColor
 import com.example.calendarapp.ui.theme.primaryLightColor
 import com.example.calendarapp.util.UiConstant
@@ -75,7 +81,7 @@ fun RegisterScreen(controller: NavHostController) {
         mutableStateOf("")
     }
 
-    var isLoading by remember {
+    val isLoading by remember {
         mutableStateOf(false)
     }
 
@@ -87,8 +93,6 @@ fun RegisterScreen(controller: NavHostController) {
         mutableStateOf(false)
     }
 
-
-    val defaultMargin = 20.dp
 
     val defaultButtonElevation = ButtonDefaults.elevatedButtonElevation(
         pressedElevation = 10.dp
@@ -113,36 +117,22 @@ fun RegisterScreen(controller: NavHostController) {
                 .fillMaxSize()
                 .padding(it)
         ) {
-            val (loginTitle1Key, loginTitle2Key, emailFiledKey, nameFiledKey, taskGroupFiledKey, passwordFiledKey, confirmPasswordFiledKey, signInButtonKey, continueLabelKey, signInOptionRowKey, registerNowLabelKey, circularIndicatorKey) = createRefs()
+            val (registerTitleKey, emailFiledKey, nameFiledKey, taskGroupFiledKey, passwordFiledKey, confirmPasswordFiledKey, signInButtonKey, continueLabelKey, signInOptionRowKey, registerNowLabelKey, circularIndicatorKey) = createRefs()
 
-            Text(
-                text = "Welcome",
-                style = MaterialTheme.typography.headlineMedium.copy(fontFamily = rubikBubblesFontFamily),
-                textAlign = TextAlign.Center, modifier = Modifier
+            AuthTopTitleWidget(authTitle = "Welcome",
+                authSubTitle = "Sign up with your task tracker app",
+                modifier = Modifier
                     .fillMaxWidth()
-                    .constrainAs(loginTitle1Key) {
+                    .constrainAs(registerTitleKey) {
                         start.linkTo(parent.start)
                         end.linkTo(parent.end)
                         top.linkTo(parent.top, margin = 20.dp)
-                    },
-                color = MaterialTheme.colorScheme.primaryContainer
-            )
-            Text(
-                text = "sign up with your task tracker app",
-                style = MaterialTheme.typography.titleLarge.copy(fontFamily = UiConstant.robotoFontFamily),
-                textAlign = TextAlign.Center, modifier = Modifier
-                    .fillMaxWidth()
-                    .constrainAs(loginTitle2Key) {
-                        start.linkTo(parent.start)
-                        end.linkTo(parent.end)
-                        top.linkTo(loginTitle1Key.bottom, margin = 10.dp)
-                        bottom.linkTo(nameFiledKey.top)
-                    }, color = MaterialTheme.colorScheme.primaryContainer
-            )
+                    })
+
             UserInput(
                 value = name,
-                onValueChange = {
-                    name = it
+                onValueChange = { nameValue ->
+                    name = nameValue
                 },
                 hint = "Enter your name",
                 modifier = Modifier
@@ -151,7 +141,7 @@ fun RegisterScreen(controller: NavHostController) {
                     .constrainAs(nameFiledKey) {
                         start.linkTo(parent.start)
                         end.linkTo(parent.end)
-                        top.linkTo(loginTitle2Key.bottom, margin = 50.dp)
+                        top.linkTo(registerTitleKey.bottom, margin = 50.dp)
                         bottom.linkTo(emailFiledKey.top)
                     },
                 imeAction = {
@@ -167,12 +157,12 @@ fun RegisterScreen(controller: NavHostController) {
                                 snackBarHostState.showSnackbar(message = "Register Success")
                             }
                         })
-                }
+                }, keyboardType = KeyboardType.Text
             )
             UserInput(
                 value = email,
-                onValueChange = {
-                    email = it
+                onValueChange = { emailValue ->
+                    email = emailValue
                 },
                 hint = "Enter your email",
                 modifier = Modifier
@@ -186,12 +176,12 @@ fun RegisterScreen(controller: NavHostController) {
                     },
                 imeAction = {
 
-                }
+                }, keyboardType = KeyboardType.Email
             )
             UserInput(
                 value = taskGroupName,
-                onValueChange = {
-                    taskGroupName = it
+                onValueChange = { taskValue ->
+                    taskGroupName = taskValue
                 },
                 hint = "Enter your initial task group name",
                 modifier = Modifier
@@ -205,11 +195,13 @@ fun RegisterScreen(controller: NavHostController) {
                     },
                 imeAction = {
 
-                }
+                }, keyboardType = KeyboardType.Text
             )
 
             UserInputPassword(value = password,
-                onValueChange = { password = it },
+                onValueChange = { passwordValue ->
+                    password = passwordValue
+                },
                 hint = "Enter your password",
                 modifier = Modifier
                     .fillMaxWidth()
@@ -226,7 +218,9 @@ fun RegisterScreen(controller: NavHostController) {
 
                 })
             UserInputPassword(value = confirmpassword,
-                onValueChange = { confirmpassword = it },
+                onValueChange = { confirmPasswordValue ->
+                    confirmpassword = confirmPasswordValue
+                },
                 hint = "Enter your confirm password",
                 modifier = Modifier
                     .fillMaxWidth()
@@ -242,6 +236,7 @@ fun RegisterScreen(controller: NavHostController) {
                 }, isConfirmPassword = true, imeAction = {
 
                 })
+
             CustomAuthButton(title = "Sign up", onTap = {
                 Util.validateRegisterData(
                     name = name,
@@ -264,92 +259,44 @@ fun RegisterScreen(controller: NavHostController) {
                     top.linkTo(confirmPasswordFiledKey.bottom, margin = 30.dp)
                 })
 
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 40.dp)
-                    .constrainAs(continueLabelKey) {
-                        start.linkTo(parent.start)
-                        end.linkTo(parent.end)
-                        top.linkTo(signInButtonKey.bottom, margin = 30.dp)
-                    },
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Divider(
-                    modifier = Modifier.weight(2.5f),
-                    thickness = 1.dp, color = MaterialTheme.colorScheme.primaryContainer
-                )
-                Text(
-                    text = "or continue with",
-                    style = MaterialTheme.typography.titleMedium.copy(fontFamily = UiConstant.robotoFontFamily),
-                    modifier = Modifier.weight(4f),
-                    textAlign = TextAlign.Center,
-                    color = MaterialTheme.colorScheme.primaryContainer
-                )
-                Divider(
-                    modifier = Modifier.weight(2.5f),
-                    thickness = 1.dp, color = MaterialTheme.colorScheme.primaryContainer
-                )
-            }
+            AuthContinueLabelWidget(modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 40.dp)
+                .constrainAs(continueLabelKey) {
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
+                    top.linkTo(signInButtonKey.bottom, margin = 30.dp)
+                })
 
-            Row(
+            AuthSocialAccountWidget(
+                socialAccounts = socialAuthAccounts,
                 modifier = UiConstant.widthModifier.constrainAs(signInOptionRowKey) {
                     start.linkTo(parent.start)
                     end.linkTo(parent.end)
                     top.linkTo(continueLabelKey.bottom, margin = 20.dp)
                 },
-                horizontalArrangement = Arrangement.SpaceAround,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
+                onTap = { account ->
+                    when (account.socialAccountType) {
+                        SocialAccountType.GOOGLE -> {
 
-                ElevatedButton(
-                    onClick = {},
-                    shape = RoundedCornerShape(10.dp),
-                    colors = ButtonDefaults.textButtonColors(
-                        containerColor = Color.White,
-                    ),
-                    modifier = Modifier.size(70.dp),
-                    elevation = defaultButtonElevation
+                        }
 
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_google_icon),
-                        contentDescription = "google_icon"
-                    )
-                }
-                ElevatedButton(
-                    onClick = {},
-                    shape = RoundedCornerShape(10.dp),
-                    colors = ButtonDefaults.textButtonColors(
-                        containerColor = Color.White,
-                    ),
-                    modifier = Modifier.size(70.dp),
-                    elevation = defaultButtonElevation
+                        SocialAccountType.FACEBOOK -> {
 
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_apple_icon),
-                        contentDescription = "google_icon"
-                    )
-                }
-                ElevatedButton(
-                    onClick = {},
-                    shape = RoundedCornerShape(10.dp),
-                    colors = ButtonDefaults.textButtonColors(
-                        containerColor = Color.White,
-                    ),
-                    modifier = Modifier.size(70.dp),
-                    elevation = defaultButtonElevation
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_facebook_icon),
-                        contentDescription = "google_icon", modifier = Modifier.fillMaxSize(),
-                    )
-                }
-            }
+                        }
 
-            Row(
+                        SocialAccountType.APPLE -> {
+
+                        }
+
+                        else -> {
+
+                        }
+                    }
+                })
+
+            AuthBottomAccountStatusWidget(authMessage = "Already have an account?",
+                authLabel = "Login",
                 modifier = Modifier
                     .fillMaxWidth(0.7f)
                     .constrainAs(registerNowLabelKey) {
@@ -358,40 +305,20 @@ fun RegisterScreen(controller: NavHostController) {
                         top.linkTo(signInOptionRowKey.bottom, margin = 10.dp)
                         bottom.linkTo(parent.bottom)
                     },
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
-            ) {
-                Text(
-                    text = "Already have an account?",
-                    style = MaterialTheme.typography.titleMedium.copy(
-                        color = MaterialTheme.colorScheme.primaryContainer,
-                        fontSize = 16.sp
-                    )
-                )
-                CustomTextButton(
-                    title = "Login",
-                    onClick = {
-                        controller.navigate(Routes.LoginRoute.route) {
-                            popUpTo(controller.graph.findStartDestination().id)
-                            launchSingleTop = true
-                        }
-                    },
-                    textStyle = MaterialTheme.typography.titleMedium.copy(
-                        color = if (isSystemInDarkTheme()) primaryDarkColor else primaryLightColor,
-                        fontSize = 20.sp
-                    )
-                )
-            }
+                onTap = {
+                    controller.navigate(Routes.LoginRoute.route) {
+                        popUpTo(controller.graph.findStartDestination().id)
+                        launchSingleTop = true
+                    }
+                })
 
             if (isLoading) {
-                CircularProgressIndicator(
-                    modifier = Modifier.constrainAs(circularIndicatorKey) {
-                        start.linkTo(parent.start)
-                        end.linkTo(parent.end)
-                        top.linkTo(parent.top)
-                        bottom.linkTo(parent.bottom)
-                    }, color = if (isSystemInDarkTheme()) primaryDarkColor else primaryLightColor
-                )
+                ProgressIndicator(modifier = Modifier.constrainAs(circularIndicatorKey) {
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
+                    top.linkTo(parent.top)
+                    bottom.linkTo(parent.bottom)
+                })
             }
 
         }

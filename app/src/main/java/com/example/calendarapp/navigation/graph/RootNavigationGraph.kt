@@ -16,7 +16,7 @@ fun RootNavigationGraph(rootNavController: NavHostController) {
     NavHost(
         navController = rootNavController,
         route = Routes.RootRoute.route,
-        startDestination = Routes.OnBoardingRoutes.route,
+        startDestination = Routes.HomeRootRoute.route,
     ) {
 
         composable(Routes.OnBoardingRoutes.route){

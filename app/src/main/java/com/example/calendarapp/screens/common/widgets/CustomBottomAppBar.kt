@@ -1,4 +1,4 @@
-package com.example.calendarapp.components
+package com.example.calendarapp.screens.common.widgets
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.shape.CircleShape

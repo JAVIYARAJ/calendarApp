@@ -32,15 +32,14 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            CalendarAppTheme {
-
+            CalendarAppTheme() {
                 val uiController = rememberSystemUiController()
                 val inDarkTheme = !isSystemInDarkTheme()
 
                 //run after composable run successfully
                 SideEffect {
                     uiController.setStatusBarColor(
-                        color =if(inDarkTheme) Color.White else Color.Black,
+                            color =if(inDarkTheme) Color.White else Color.Black,
                         darkIcons =inDarkTheme
                     )
                 }
