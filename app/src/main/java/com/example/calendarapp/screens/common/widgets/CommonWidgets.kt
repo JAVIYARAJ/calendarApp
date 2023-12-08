@@ -209,6 +209,8 @@ fun CustomProgressBar(
         mutableStateOf(false)
     }
 
+
+
     val animation = animateFloatAsState(
         targetValue = if (animationStatus) percentage else 0f,
         animationSpec = tween(durationMillis = animationDuration, delayMillis = animationDelay),

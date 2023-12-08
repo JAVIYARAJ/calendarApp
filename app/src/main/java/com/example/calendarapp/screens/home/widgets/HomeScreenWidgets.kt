@@ -1,11 +1,14 @@
 package com.example.calendarapp.screens.home.widgets
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -25,8 +28,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -37,15 +42,28 @@ import com.example.calendarapp.screens.common.widgets.CustomProgressBar
 import com.example.calendarapp.ui.theme.primaryDarkColor
 import com.example.calendarapp.ui.theme.primaryLightColor
 import com.example.calendarapp.util.UiConstant
+import com.example.calendarapp.util.Util
 
-@Preview
 @Composable
-fun HomeProgressCardWidget() {
+fun HomeProgressCardWidget(progressRate:Float) {
     Surface(
         shape = RoundedCornerShape(10.dp),
         color = if (isSystemInDarkTheme()) primaryDarkColor else primaryLightColor,
         modifier = Modifier.padding(horizontal = 10.dp, vertical = 10.dp)
     ) {
+
+        val message=if(progressRate>=0.9){
+            "Great job! You've completed most of your tasks today. Keep up the excellent work!"
+        }else if(progressRate>=0.7 && progressRate<0.9){
+            "You're doing well! Most tasks are completed. A little push, and you'll hit your goal!"
+        }else if(progressRate>=0.5 &&progressRate<0.7){
+            "You're halfway there! Keep going, and you'll achieve your daily goals."
+        }else if(progressRate>=0.3 && progressRate<0.5){
+            "Let's pick up the pace! There's still time to complete more tasks today."
+        }else{
+            "It's not too late to turn things around! Start with the most important tasks and make the day count."
+        }
+
         ConstraintLayout(
             modifier = Modifier
                 .fillMaxWidth()
@@ -54,7 +72,7 @@ fun HomeProgressCardWidget() {
         ) {
             val (progressTitleKey, viewTaskLabelKey, progressBarKey) = createRefs()
             Text(
-                text = "Your today's task almost done!",
+                text = message,
                 style = MaterialTheme.typography.titleMedium.copy(fontFamily = UiConstant.robotoFontFamily),
                 modifier = Modifier.constrainAs(progressTitleKey) {
                     start.linkTo(parent.start)
@@ -77,12 +95,12 @@ fun HomeProgressCardWidget() {
             }
 
             CustomProgressBar(
-                percentage = 0.9f,
+                percentage = progressRate,
                 number = 100,
                 modifier = Modifier.constrainAs(progressBarKey) {
+                    top.linkTo(progressTitleKey.bottom,20.dp)
                     end.linkTo(parent.end, margin = 15.dp)
-                    top.linkTo(parent.top)
-                    bottom.linkTo(parent.bottom)
+                    bottom.linkTo(parent.bottom,10.dp)
                 },
                 textSize = 15.sp
             )
@@ -113,7 +131,7 @@ fun HomeTopBarWidget() {
         Spacer(modifier = Modifier.width(20.dp))
         Column(modifier = Modifier.weight(5f)) {
             Text(
-                text = "Hello! Good Morning",
+                text = Util.getGreetingMessage(),
                 style = MaterialTheme.typography.titleMedium.copy(fontFamily = UiConstant.robotoFontFamily),
                 color = MaterialTheme.colorScheme.primaryContainer
             )
@@ -169,6 +187,37 @@ fun TaskGroupCardWidget(taskGroupItem: TaskGroupItem) {
                 )
             }
             CustomProgressBar(percentage = (taskGroupItem.taskSize.toFloat()-taskGroupItem.completedTaskSize.toFloat())/100, number = taskGroupItem.taskSize, radius = 20.dp, strokeWidth = 5.dp)
+        }
+    }
+}
+
+@Composable
+fun HomeTaskStatusCardWidget(title: String, value: String, modifier: Modifier,color: Color) {
+    Box(
+        modifier = modifier
+            .clip(RoundedCornerShape(10.dp))
+            .background(color = if (isSystemInDarkTheme()) color.copy(alpha = 0.8f) else color.copy(alpha = 0.7f))
+            .padding(10.dp)
+
+    ) {
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.SpaceAround
+        ) {
+            Text(
+                text = title,
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.primaryContainer,
+            )
+            Text(
+                text = value,
+                style = MaterialTheme.typography.headlineLarge.copy(
+                    color = MaterialTheme.colorScheme.primaryContainer,
+                    fontFamily = UiConstant.rubikBubblesFontFamily
+                ),
+                textAlign = TextAlign.Center
+            )
         }
     }
 }

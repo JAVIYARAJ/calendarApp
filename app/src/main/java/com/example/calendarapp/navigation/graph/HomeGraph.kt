@@ -11,6 +11,8 @@ import com.example.calendarapp.screens.bookmark.BookmarkScreen
 import com.example.calendarapp.screens.calendar.CalendarMonthScreen
 import com.example.calendarapp.screens.history.HistoryScreen
 import com.example.calendarapp.screens.home.HomeScreen
+import com.example.calendarapp.screens.task.CreateTaskScreen
+import com.example.calendarapp.screens.task.TaskDetailScreen
 import com.example.calendarapp.screens.task.TaskGroupScreen
 import com.example.calendarapp.screens.task.TaskScreen
 import com.example.calendarapp.util.Util
@@ -37,7 +39,8 @@ fun HomeGraph(homeNavController: NavHostController,onChange:()->Unit) {
         }
 
         composable(Routes.TaskRoute.route) {
-            TaskScreen()
+            //CreateTaskScreen()
+            TaskDetailScreen()
         }
 
         composable(Routes.HistoryRoute.route) {

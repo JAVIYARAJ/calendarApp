@@ -19,7 +19,7 @@ fun RootNavigationGraph(rootNavController: NavHostController) {
         startDestination = Routes.HomeRootRoute.route,
     ) {
 
-        composable(Routes.OnBoardingRoutes.route){
+        composable(Routes.OnBoardingRoutes.route) {
             OnBoardingScreen(rootNavController)
         }
 

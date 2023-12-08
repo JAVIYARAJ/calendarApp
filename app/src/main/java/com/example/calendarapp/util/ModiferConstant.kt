@@ -23,4 +23,8 @@ object UiConstant {
     val novaFontFamily=FontFamily(
         Font(R.font.nova_square_regular)
     )
+
+    val hedvig_letters_serif_regular=FontFamily(
+        Font(R.font.hedvig_letters_serif_regular)
+    )
 }

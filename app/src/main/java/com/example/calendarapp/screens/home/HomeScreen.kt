@@ -1,21 +1,18 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.example.calendarapp.screens.home
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -27,16 +24,19 @@ import androidx.navigation.NavHostController
 import com.example.calendarapp.R
 import com.example.calendarapp.navigation.routes.Routes
 import com.example.calendarapp.screens.common.TaskGroupItem
-import com.example.calendarapp.screens.common.widgets.CustomProgressBar
 import com.example.calendarapp.screens.home.widgets.HomeProgressCardWidget
+import com.example.calendarapp.screens.home.widgets.HomeTaskStatusCardWidget
 import com.example.calendarapp.screens.home.widgets.HomeTopBarWidget
 import com.example.calendarapp.screens.home.widgets.TaskGroupCardWidget
-import com.example.calendarapp.util.UiConstant.novaFontFamily
-import com.example.calendarapp.util.UiConstant.robotoFontFamily
+import com.example.calendarapp.ui.theme.completedTaskColor
+import com.example.calendarapp.ui.theme.inProgressTaskColor
+import com.example.calendarapp.ui.theme.inReviewTaskColor
+import com.example.calendarapp.ui.theme.onCancelTaskColor
+import com.example.calendarapp.ui.theme.onHoldTaskColor
+import com.example.calendarapp.ui.theme.primaryDarkColor
 import com.example.calendarapp.util.UiConstant.widthModifier
 
 @RequiresApi(Build.VERSION_CODES.O)
-@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(controller: NavHostController) {
 
@@ -83,7 +83,7 @@ fun HomeScreen(controller: NavHostController) {
 
      */
 
-    val taskGroupList= listOf(
+    val taskGroupList = listOf(
         TaskGroupItem(
             id = "1",
             title = "Office Project",
@@ -124,31 +124,110 @@ fun HomeScreen(controller: NavHostController) {
         )
     )
 
-    val horizontalMargin = 10.dp
-    val verticalMargin = 15.dp
-
-    Column(modifier = Modifier.fillMaxSize()) {
+    Scaffold(topBar = {
         HomeTopBarWidget()
-        HomeProgressCardWidget()
-        Row(modifier = widthModifier.padding(horizontal = 10.dp, vertical = 5.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
-            Text(
-                text = "Task Groups",
-                style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.primaryContainer,
-            )
-            TextButton(onClick = {
-                controller.navigate(Routes.HomeTaskGroupRoutes.route)
-            }) {
+    }) {
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(it)
+        ) {
+            item {
+                HomeProgressCardWidget(progressRate = 0.9f)
+            }
+            item {
                 Text(
-                    text = "view more",
+                    text = "Task Status",
                     style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.primaryContainer,
+                    modifier = Modifier.padding(10.dp)
                 )
             }
-        }
-        repeat(taskGroupList.size) {
-            TaskGroupCardWidget(taskGroupList[it])
+            item {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 10.dp),
+                    horizontalArrangement = Arrangement.SpaceAround,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    HomeTaskStatusCardWidget(
+                        "Completed", "25", modifier = Modifier
+                            .weight(2f)
+                            .padding(2.dp), completedTaskColor
+                    )
+                    HomeTaskStatusCardWidget(
+                        "In Progress", "36", modifier = Modifier
+                            .weight(2f)
+                            .padding(2.dp), inProgressTaskColor
+                    )
+                    HomeTaskStatusCardWidget(
+                        "In Review", "10", modifier = Modifier
+                            .weight(2f)
+                            .padding(2.dp), inReviewTaskColor
+                    )
+                }
+            }
+
+            item {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 10.dp),
+                    horizontalArrangement = Arrangement.SpaceAround,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    HomeTaskStatusCardWidget(
+                        "On Hold", "5", modifier = Modifier
+                            .weight(2f)
+                            .padding(2.dp), onHoldTaskColor
+                    )
+                    HomeTaskStatusCardWidget(
+                        "Canceled", "3", modifier = Modifier
+                            .weight(2f)
+                            .padding(2.dp), onCancelTaskColor
+                    )
+                    HomeTaskStatusCardWidget(
+                        "Urgent", "2", modifier = Modifier
+                            .weight(2f)
+                            .padding(2.dp), primaryDarkColor
+                    )
+                }
+            }
+
+            item {
+                Row(
+                    modifier = widthModifier.padding(horizontal = 10.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        text = "Task Groups",
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.primaryContainer,
+                    )
+                    TextButton(onClick = {
+                        controller.navigate(Routes.HomeTaskGroupRoutes.route)
+                    }) {
+                        Text(
+                            text = "view more",
+                            style = MaterialTheme.typography.titleMedium,
+                            color = MaterialTheme.colorScheme.primaryContainer,
+                        )
+                    }
+                }
+
+            }
+
+            item {
+                repeat(taskGroupList.size) { taskGroup ->
+                    TaskGroupCardWidget(taskGroupList[taskGroup])
+                }
+            }
+
         }
     }
+
+
 }
 

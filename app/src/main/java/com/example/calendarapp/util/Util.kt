@@ -186,5 +186,16 @@ class Util {
             }
         }
 
+        fun getGreetingMessage(): String {
+            val calendar = Calendar.getInstance()
+
+            return when (calendar.get(Calendar.HOUR_OF_DAY)) {
+                in 5..11 -> "Hello! Good morning! ☀️"
+                in 12..16 -> "Hello! Good afternoon! 🌤️"
+                in 17..20 -> "Hello! Good evening!"
+                else -> "Good night! 🌙"
+            }
+        }
+
     }
 }
