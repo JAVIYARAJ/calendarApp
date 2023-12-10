@@ -2,6 +2,7 @@ package com.example.calendarapp.screens.auth
 
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -14,17 +15,21 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -32,6 +37,7 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavHostController
 import com.example.calendarapp.R
+import com.example.calendarapp.navigation.routes.RouteQueryConstant.EMAIL_QUERY
 import com.example.calendarapp.navigation.routes.Routes
 import com.example.calendarapp.screens.auth.widgets.CustomAuthButton
 import com.example.calendarapp.screens.common.widgets.CustomScreenTopNavBar
@@ -39,7 +45,9 @@ import com.example.calendarapp.screens.common.widgets.ProgressIndicator
 import com.example.calendarapp.screens.common.widgets.UserInput
 import com.example.calendarapp.ui.theme.primaryDarkColor
 import com.example.calendarapp.ui.theme.primaryLightColor
+import com.example.calendarapp.util.ExtensionFunction.Companion.isEmailValid
 import com.example.calendarapp.util.UiConstant.robotoFontFamily
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 
@@ -50,7 +58,18 @@ fun ForgotOtpSendScreen(controller: NavHostController) {
         mutableStateOf(false)
     }
 
+    val snackBarHost = remember {
+        SnackbarHostState()
+    }
+
+    var email by remember {
+        mutableStateOf("")
+    }
+
+    val scope = rememberCoroutineScope()
+
     Scaffold(
+
         topBar = {
             CustomScreenTopNavBar(
                 title = "Forgot Password", onBackClick = {
@@ -58,6 +77,9 @@ fun ForgotOtpSendScreen(controller: NavHostController) {
                 }, modifier = Modifier
                     .fillMaxWidth()
             )
+        },
+        snackbarHost = {
+            SnackbarHost(hostState = snackBarHost)
         }
     ) {
         ConstraintLayout(
@@ -68,9 +90,7 @@ fun ForgotOtpSendScreen(controller: NavHostController) {
 
             val (lockImageKey, screenTitleKey, emailFiledKey, sendButtonKey, loadingKey) = createRefs()
 
-            var email by remember {
-                mutableStateOf("")
-            }
+
 
             Box(
                 modifier = Modifier
@@ -123,9 +143,9 @@ fun ForgotOtpSendScreen(controller: NavHostController) {
                         end.linkTo(parent.end)
                         top.linkTo(screenTitleKey.bottom, margin = 50.dp)
                     },
-                imeAction = {
+                imeActionCallBack = {
 
-                }, keyboardType = KeyboardType.Email
+                }, imeAction = ImeAction.Done
             )
 
             CustomAuthButton(title = "Send Otp", modifier = Modifier
@@ -136,11 +156,27 @@ fun ForgotOtpSendScreen(controller: NavHostController) {
                     end.linkTo(parent.end)
                     top.linkTo(emailFiledKey.bottom, margin = 50.dp)
                 }, onTap = {
-                isLoading = true
-                Handler(Looper.getMainLooper()).postDelayed({
-                    isLoading = false
-                    controller.navigate(Routes.ForgotOtpVerifyRoute.route)
-                }, 1000)
+                if (email.isEmpty()) {
+                    scope.launch {
+                        snackBarHost.showSnackbar("enter your email")
+                    }
+                } else {
+                    if (email.isEmailValid()) {
+                        isLoading = true
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            isLoading = false
+
+                            val routes=Routes.ForgotOtpVerifyRoute.route.replace(EMAIL_QUERY,email)
+
+                            controller.navigate(routes)
+                        }, 1000)
+                    } else {
+                        scope.launch {
+                            snackBarHost.showSnackbar("enter valid email")
+                        }
+                    }
+                }
+
             })
 
             if (isLoading) {

@@ -72,10 +72,8 @@ dependencies {
     val nav_version = "2.7.5"
     implementation("androidx.navigation:navigation-compose:$nav_version")
 
+    //extended icons
     implementation ("androidx.compose.material:material-icons-extended:1.5.4")
-
-    // biometric
-    implementation ("androidx.biometric:biometric:1.1.0")
 
     //constraint layout
     implementation ("androidx.constraintlayout:constraintlayout-compose:1.0.1")

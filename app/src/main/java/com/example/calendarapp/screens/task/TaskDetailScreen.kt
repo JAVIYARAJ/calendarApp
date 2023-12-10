@@ -117,7 +117,7 @@ fun TaskDetailScreen() {
                 Row(modifier = Modifier.weight(5f)) {
                     Image(
                         painter = painterResource(id = R.drawable.ic_hastag_icon),
-                        contentDescription = "hastag_icon"
+                        contentDescription = "hashtag_icon"
                     )
                     Spacer(modifier = Modifier.width(10.dp))
                     Text(

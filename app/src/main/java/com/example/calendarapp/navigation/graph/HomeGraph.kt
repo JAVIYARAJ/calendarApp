@@ -7,19 +7,17 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.calendarapp.navigation.routes.Routes
-import com.example.calendarapp.screens.bookmark.BookmarkScreen
+import com.example.calendarapp.screens.document.DocumentScreen
 import com.example.calendarapp.screens.calendar.CalendarMonthScreen
 import com.example.calendarapp.screens.history.HistoryScreen
 import com.example.calendarapp.screens.home.HomeScreen
-import com.example.calendarapp.screens.task.CreateTaskScreen
-import com.example.calendarapp.screens.task.TaskDetailScreen
 import com.example.calendarapp.screens.task.TaskGroupScreen
-import com.example.calendarapp.screens.task.TaskScreen
 import com.example.calendarapp.util.Util
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun HomeGraph(homeNavController: NavHostController,onChange:()->Unit) {
+
     NavHost(
         navController = homeNavController,
         route = Routes.HomeRootRoute.route,
@@ -31,16 +29,14 @@ fun HomeGraph(homeNavController: NavHostController,onChange:()->Unit) {
 
         composable(Routes.CalendarRoute.route) {
             CalendarMonthScreen(yearValue = Util.getYear(),monthValue = Util.getMonth(),onChange=onChange)
-            //CalendarYearScreen(controller = homeNavController)
         }
 
-        composable(Routes.BookmarkRoute.route) {
-            BookmarkScreen()
+        composable(Routes.DocumentRoute.route) {
+            DocumentScreen()
         }
 
         composable(Routes.TaskRoute.route) {
-            //CreateTaskScreen()
-            TaskDetailScreen()
+            TaskGroupScreen(controller = homeNavController)
         }
 
         composable(Routes.HistoryRoute.route) {

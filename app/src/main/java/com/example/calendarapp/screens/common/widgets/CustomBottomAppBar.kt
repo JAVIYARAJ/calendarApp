@@ -5,14 +5,14 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccessTime
+import androidx.compose.material.icons.filled.AddToDrive
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.TaskAlt
 import androidx.compose.material.icons.outlined.AccessTime
+import androidx.compose.material.icons.outlined.AddToDrive
 import androidx.compose.material.icons.outlined.DateRange
 import androidx.compose.material.icons.outlined.Home
-import androidx.compose.material.icons.outlined.Star
 import androidx.compose.material.icons.outlined.TaskAlt
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -39,8 +39,8 @@ fun CustomBottomAppBar(navController: NavHostController) {
     val bottomScreenItems = listOf(
         BottomScreens.Home,
         BottomScreens.Calendar,
-        BottomScreens.BookMark,
         BottomScreens.Task,
+        BottomScreens.Documents,
         BottomScreens.History,
     )
 
@@ -96,11 +96,11 @@ sealed class BottomScreens(
         unSelectedIcon = Icons.Outlined.DateRange,
     )
 
-    object BookMark : BottomScreens(
-        routes = Routes.BookmarkRoute.route,
-        title = "Bookmark",
-        selectedIcon = Icons.Default.Star,
-        unSelectedIcon = Icons.Outlined.Star,
+    object Documents : BottomScreens(
+        routes = Routes.DocumentRoute.route,
+        title = "Document",
+        selectedIcon = Icons.Default.AddToDrive,
+        unSelectedIcon = Icons.Outlined.AddToDrive,
     )
 
     object Task : BottomScreens(
@@ -116,6 +116,4 @@ sealed class BottomScreens(
         selectedIcon = Icons.Filled.AccessTime,
         unSelectedIcon = Icons.Outlined.AccessTime,
     )
-
-
 }

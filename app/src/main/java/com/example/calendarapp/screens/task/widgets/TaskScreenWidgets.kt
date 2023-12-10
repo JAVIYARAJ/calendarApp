@@ -16,6 +16,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreHoriz
 import androidx.compose.material3.Divider
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -29,12 +31,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
+import com.example.calendarapp.screens.task.TaskCategoryModel
 import com.example.calendarapp.ui.theme.completedTaskColor
 import com.example.calendarapp.ui.theme.inProgressTaskColor
 import com.example.calendarapp.ui.theme.inReviewTaskColor
 import com.example.calendarapp.ui.theme.onHoldTaskColor
 import com.example.calendarapp.ui.theme.primaryDarkColor
 import com.example.calendarapp.ui.theme.primaryLightColor
+import com.example.calendarapp.util.ExtensionFunction.Companion.convertIntoColor
 import com.example.calendarapp.util.UiConstant
 
 @Composable
@@ -106,17 +110,22 @@ fun TaskProgressItemWidget() {
     }
 }
 
-@Preview
 @Composable
-fun TaskGroupCardWidget() {
+fun TaskGroupCardWidget(categoryModel: TaskCategoryModel) {
     val listOfTaskStatus = listOf("In Progress", "In Review", "On Hold", "Canceled")
 
-    val cardColor=if(isSystemInDarkTheme()) primaryDarkColor else primaryLightColor
+    val optionMenuList= listOf("Edit","Delete")
+
+    val taskStatus=categoryModel.taskCategoryStatus
+
+    val listOfTaskProgressData= listOf(taskStatus.inProgressTask,taskStatus.inReviewTask,taskStatus.onHoldTask,taskStatus.canceledTask)
+
+    val cardColor = if (isSystemInDarkTheme()) primaryDarkColor else primaryLightColor
 
     Surface(
         modifier = Modifier
             .fillMaxWidth()
-            .height(320.dp)
+            .height(270.dp)
             .padding(10.dp),
         shape = RoundedCornerShape(10.dp)
     ) {
@@ -124,11 +133,15 @@ fun TaskGroupCardWidget() {
             ConstraintLayout(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .fillMaxHeight(0.5f)
-                    .background(color = cardColor.copy(alpha = 0.7f))
+                    .height(150.dp)
+                    .background(
+                        color = categoryModel.color
+                            .convertIntoColor()
+                            .copy(alpha = 0.9f)
+                    )
             ) {
 
-                val (topCardDesignKey, titleKey, completedLabelKey, completedValueKey) = createRefs()
+                val (topCardDesignKey, titleKey, completedLabelKey, completedValueKey, moreIconKey,optionMenuKey) = createRefs()
 
                 Surface(
                     modifier = Modifier
@@ -137,17 +150,28 @@ fun TaskGroupCardWidget() {
                         .constrainAs(topCardDesignKey) {
                         },
                     shape = RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp),
-                    color =cardColor.copy(alpha = 0.9f)
+                    color = categoryModel.color.convertIntoColor().copy(alpha = 0.9f)
                 ) {
 
                 }
                 Text(
-                    text = "Data Structure",
+                    text = categoryModel.categoryName,
                     style = MaterialTheme.typography.titleLarge.copy(color = MaterialTheme.colorScheme.background),
                     modifier = Modifier.constrainAs(titleKey) {
                         start.linkTo(parent.start, 20.dp)
                         top.linkTo(topCardDesignKey.bottom, 20.dp)
                     })
+
+                IconButton(onClick = {}, modifier = Modifier.constrainAs(moreIconKey) {
+                    end.linkTo(parent.end,10.dp)
+                    top.linkTo(parent.top)
+                }) {
+                    Icon(
+                        imageVector = Icons.Default.MoreHoriz,
+                        contentDescription = "",
+                        tint = MaterialTheme.colorScheme.background
+                    )
+                }
 
                 Text(
                     text = "Completed",
@@ -157,7 +181,7 @@ fun TaskGroupCardWidget() {
                         top.linkTo(titleKey.bottom, 10.dp)
                     })
                 Text(
-                    text = "105",
+                    text = categoryModel.taskCategoryStatus.completedTask.toString(),
                     style = MaterialTheme.typography.headlineMedium.copy(
                         color = MaterialTheme.colorScheme.background,
                         fontFamily = UiConstant.rubikBubblesFontFamily
@@ -167,15 +191,26 @@ fun TaskGroupCardWidget() {
                         top.linkTo(completedLabelKey.bottom, 5.dp)
                     }, textAlign = TextAlign.Center
                 )
+                /*
+                DropdownMenu(expanded = true, onDismissRequest = {  }, modifier = Modifier.constrainAs(optionMenuKey){
+                    end.linkTo(parent.end,20.dp)
+                    top.linkTo(moreIconKey.bottom,5.dp)
+                }) {
+                    optionMenuList.forEach {
+                        DropdownMenuItem(text = { Text(text = it)}, onClick = {  })
+                    }
+                }
+
+                 */
             }
             ConstraintLayout(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .fillMaxHeight(1f)
+                    .height(120.dp)
                     .background(color = MaterialTheme.colorScheme.secondary)
             ) {
 
-                val (taskGroupStatusRowKey, taskGroupStatusIconKey, dividerKey, bottomCardRowKey) = createRefs()
+                val (taskGroupStatusRowKey, taskGroupStatusIconKey) = createRefs()
 
                 Row(
                     modifier = Modifier
@@ -189,7 +224,10 @@ fun TaskGroupCardWidget() {
                     repeat(listOfTaskStatus.size) {
                         Text(
                             text = listOfTaskStatus[it],
-                            style = MaterialTheme.typography.bodySmall.copy(color = MaterialTheme.colorScheme.background, fontFamily = UiConstant.robotoFontFamily),
+                            style = MaterialTheme.typography.bodySmall.copy(
+                                color = MaterialTheme.colorScheme.background,
+                                fontFamily = UiConstant.robotoFontFamily
+                            ),
                             modifier = Modifier.weight(1f),
                             textAlign = TextAlign.Center
                         )
@@ -205,47 +243,14 @@ fun TaskGroupCardWidget() {
                             end.linkTo(parent.end, 20.dp)
                         }, horizontalArrangement = Arrangement.SpaceAround
                 ) {
-                    repeat(listOfTaskStatus.size) {
+                    repeat(listOfTaskProgressData.size) {
                         Text(
-                            text = it.toString(),
+                            text = listOfTaskProgressData[it].toString(),
                             style = MaterialTheme.typography.headlineMedium.copy(
                                 color = MaterialTheme.colorScheme.background,
                                 fontFamily = UiConstant.rubikBubblesFontFamily
                             ), modifier = Modifier.weight(1f),
                             textAlign = TextAlign.Center
-                        )
-                    }
-                }
-
-                Divider(modifier = Modifier
-                    .constrainAs(dividerKey) {
-                        start.linkTo(parent.start, 20.dp)
-                        end.linkTo(parent.end, 20.dp)
-                        top.linkTo(taskGroupStatusIconKey.bottom, 10.dp)
-                    }
-                    .padding(horizontal = 10.dp), color = MaterialTheme.colorScheme.background)
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 20.dp)
-                        .constrainAs(bottomCardRowKey) {
-                            start.linkTo(parent.start, 20.dp)
-                            end.linkTo(parent.end, 20.dp)
-                            top.linkTo(dividerKey.bottom, 10.dp)
-                        },
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = "View Task",
-                        style = MaterialTheme.typography.titleMedium.copy(fontFamily = UiConstant.robotoFontFamily),
-                        color = MaterialTheme.colorScheme.background
-                    )
-                    IconButton(onClick = {}) {
-                        Icon(
-                            imageVector = Icons.Default.MoreHoriz,
-                            contentDescription = "",
-                            tint = MaterialTheme.colorScheme.background
                         )
                     }
                 }

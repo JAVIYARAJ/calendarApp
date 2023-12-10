@@ -25,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -139,11 +140,11 @@ fun ConfirmPasswordScreen(controller: NavHostController) {
                         end.linkTo(parent.end)
                         top.linkTo(screenTitleKey.bottom, margin = 50.dp)
                     },
-                imeAction = {
+                imeActionCallBack = {
 
                 }, passwordIconChange = {
                     isPasswordShow = !isPasswordShow
-                }, isPasswordShow = isPasswordShow
+                }, isPasswordShow = isPasswordShow, imeAction = ImeAction.Next
             )
 
             UserInputPassword(
@@ -159,11 +160,11 @@ fun ConfirmPasswordScreen(controller: NavHostController) {
                     },
                 onValueChange = { pwd ->
                     confirmPassword = pwd
-                }, imeAction = {
+                }, imeActionCallBack = {
 
                 }, passwordIconChange = {
                     isConfirmPasswordShow = !isConfirmPasswordShow
-                }, isPasswordShow = isConfirmPasswordShow
+                }, isPasswordShow = isConfirmPasswordShow, imeAction = ImeAction.Done
             )
 
             CustomAuthButton(title = "Save", modifier = Modifier
@@ -177,9 +178,9 @@ fun ConfirmPasswordScreen(controller: NavHostController) {
                 isLoading = true
                 Handler(Looper.getMainLooper()).postDelayed({
                     isLoading = false
-                    controller.navigate(Routes.LoginRoute.route){
-                        popUpTo(controller.graph.findStartDestination().id){
-                            inclusive=true
+                    controller.navigate(Routes.LoginRoute.route) {
+                        popUpTo(controller.graph.findStartDestination().id) {
+                            inclusive = true
                         }
                     }
                 }, 1000)

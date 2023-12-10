@@ -60,8 +60,7 @@ fun OnBoardingCategorySelectScreen() {
 fun CategoryCardWidget() {
     Box(
         modifier = Modifier
-            .padding(10.dp)
-            .aspectRatio(1f) // Ensure square aspect ratio
+            .padding(10.dp).aspectRatio(1f) // Ensure square aspect ratio
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             ConstraintLayout(
@@ -96,6 +95,16 @@ fun CategoryCardWidget() {
                             bottom.linkTo(parent.bottom)
                         },
                     contentScale = ContentScale.Crop
+                )
+
+                Text(
+                    text = "Android Developer",
+                    style = MaterialTheme.typography.titleMedium.copy(color = Color.Black), modifier = Modifier.constrainAs(categoryTitleKey){
+                        start.linkTo(parent.start)
+                        end.linkTo(parent.end)
+                        top.linkTo(selectedKey.bottom)
+                    },
+                    textAlign = TextAlign.Center
                 )
             }
 

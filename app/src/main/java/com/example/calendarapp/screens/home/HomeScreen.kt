@@ -36,6 +36,7 @@ import com.example.calendarapp.ui.theme.onHoldTaskColor
 import com.example.calendarapp.ui.theme.primaryDarkColor
 import com.example.calendarapp.util.UiConstant.widthModifier
 
+@OptIn(ExperimentalMaterial3Api::class)
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun HomeScreen(controller: NavHostController) {
@@ -130,7 +131,7 @@ fun HomeScreen(controller: NavHostController) {
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(it)
+                .padding(it).then(Modifier.padding(bottom = 80.dp))
         ) {
             item {
                 HomeProgressCardWidget(progressRate = 0.9f)
@@ -197,7 +198,7 @@ fun HomeScreen(controller: NavHostController) {
 
             item {
                 Row(
-                    modifier = widthModifier.padding(horizontal = 10.dp),
+                    modifier = widthModifier.padding(horizontal = 10.dp, vertical = 5.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
@@ -206,15 +207,11 @@ fun HomeScreen(controller: NavHostController) {
                         style = MaterialTheme.typography.titleMedium,
                         color = MaterialTheme.colorScheme.primaryContainer,
                     )
-                    TextButton(onClick = {
-                        controller.navigate(Routes.HomeTaskGroupRoutes.route)
-                    }) {
-                        Text(
-                            text = "view more",
-                            style = MaterialTheme.typography.titleMedium,
-                            color = MaterialTheme.colorScheme.primaryContainer,
-                        )
-                    }
+                    Text(
+                        text = "view more",
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.primaryContainer,
+                    )
                 }
 
             }

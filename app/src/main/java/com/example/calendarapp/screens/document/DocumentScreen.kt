@@ -1,9 +1,9 @@
-package com.example.calendarapp.screens.bookmark
+package com.example.calendarapp.screens.document
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 
 @Composable
-fun BookmarkScreen() {
+fun DocumentScreen() {
     Text(text = "BookmarkScreen")
 }

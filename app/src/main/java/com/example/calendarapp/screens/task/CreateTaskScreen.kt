@@ -1,8 +1,6 @@
 package com.example.calendarapp.screens.task
 
 import android.annotation.SuppressLint
-import android.util.Log
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -11,27 +9,22 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -43,12 +36,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.calendarapp.R
 import com.example.calendarapp.screens.common.widgets.CustomScreenTopNavBar
 import com.example.calendarapp.screens.common.widgets.UserInput
 import com.example.calendarapp.ui.theme.completedTaskColor
@@ -56,7 +48,6 @@ import com.example.calendarapp.ui.theme.inProgressTaskColor
 import com.example.calendarapp.ui.theme.inReviewTaskColor
 import com.example.calendarapp.ui.theme.onCancelTaskColor
 import com.example.calendarapp.ui.theme.onHoldTaskColor
-import com.example.calendarapp.ui.theme.primaryDarkColor
 import com.example.calendarapp.util.UiConstant.robotoFontFamily
 
 @SuppressLint("UnrememberedMutableState")
@@ -65,7 +56,7 @@ import com.example.calendarapp.util.UiConstant.robotoFontFamily
 @Composable
 fun CreateTaskScreen() {
 
-    val categories = mutableStateListOf<CategoryItemModel>(
+    val categories = mutableStateListOf(
         CategoryItemModel(
             id = "1",
             item = "Android Development",
@@ -161,10 +152,9 @@ fun CreateTaskScreen() {
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 10.dp).then(Modifier.padding(top = 20.dp)),
-                keyboardType = KeyboardType.Text,
-                imeAction = {
+                imeActionCallBack = {
 
-                }
+                }, imeAction = ImeAction.Done
             )
             Spacer(modifier = Modifier.height(20.dp))
 
@@ -212,9 +202,9 @@ fun CreateTaskScreen() {
                         .weight(5f)
                         .padding(horizontal = 5.dp),
                     keyboardType = KeyboardType.Text,
-                    imeAction = {
+                    imeActionCallBack = {
 
-                    }
+                    }, imeAction = ImeAction.Done
                 )
 
                 UserInput(
@@ -226,10 +216,9 @@ fun CreateTaskScreen() {
                     modifier = Modifier
                         .weight(5f)
                         .padding(horizontal = 5.dp),
-                    keyboardType = KeyboardType.Text,
-                    imeAction = {
+                    imeActionCallBack = {
 
-                    }
+                    }, imeAction = ImeAction.Done
                 )
             }
 

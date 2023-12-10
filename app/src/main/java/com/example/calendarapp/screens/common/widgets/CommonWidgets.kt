@@ -45,6 +45,7 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.ImeOptions
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -67,9 +68,9 @@ fun UserInput(
     hintStyle: TextStyle = MaterialTheme.typography.titleMedium.copy(color = MaterialTheme.colorScheme.background),
     modifier: Modifier,
     inSingleLine: Boolean = true,
-    isPassword: Boolean = false,
-    keyboardType: KeyboardType,
-    imeAction: (KeyboardActionScope) -> Unit,
+    keyboardType: KeyboardType=KeyboardType.Text,
+    imeAction:ImeAction,
+    imeActionCallBack: () -> Unit
 ) {
     TextField(
         value = value,
@@ -91,11 +92,13 @@ fun UserInput(
         modifier = modifier,
         keyboardOptions = KeyboardOptions(
             keyboardType = keyboardType,
-            imeAction = if (isPassword) ImeAction.Done else ImeAction.Next
+            imeAction = imeAction
         ),
-        keyboardActions = if (isPassword) KeyboardActions(onDone = imeAction) else KeyboardActions(
-            onNext = imeAction
-        )
+        keyboardActions = KeyboardActions(onDone = {
+            imeActionCallBack.invoke()
+        }, onNext = {
+            imeActionCallBack.invoke()
+        })
     )
 }
 
@@ -110,8 +113,8 @@ fun UserInputPassword(
     inSingleLine: Boolean = true,
     isPasswordShow: Boolean = false,
     passwordIconChange: () -> Unit,
-    isConfirmPassword: Boolean = false,
-    imeAction: () -> Unit
+    imeAction: ImeAction,
+    imeActionCallBack: () -> Unit
 ) {
     TextField(
         value = value,
@@ -143,12 +146,12 @@ fun UserInputPassword(
         visualTransformation = if (isPasswordShow) VisualTransformation.None else PasswordVisualTransformation(),
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Password,
-            imeAction = if (isConfirmPassword) ImeAction.Done else ImeAction.Next
+            imeAction = imeAction
         ),
         keyboardActions = KeyboardActions(onDone = {
-            imeAction.invoke()
+            imeActionCallBack.invoke()
         }, onNext = {
-            imeAction.invoke()
+            imeActionCallBack.invoke()
         })
 
     )

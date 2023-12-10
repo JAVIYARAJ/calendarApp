@@ -32,6 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -144,7 +145,7 @@ fun RegisterScreen(controller: NavHostController) {
                         top.linkTo(registerTitleKey.bottom, margin = 50.dp)
                         bottom.linkTo(emailFiledKey.top)
                     },
-                imeAction = {
+                imeActionCallBack = {
                     Util.validateRegisterData(
                         name = name,
                         email = email,
@@ -157,7 +158,7 @@ fun RegisterScreen(controller: NavHostController) {
                                 snackBarHostState.showSnackbar(message = "Register Success")
                             }
                         })
-                }, keyboardType = KeyboardType.Text
+                }, imeAction = ImeAction.Next
             )
             UserInput(
                 value = email,
@@ -174,9 +175,9 @@ fun RegisterScreen(controller: NavHostController) {
                         top.linkTo(nameFiledKey.bottom, margin = 20.dp)
                         bottom.linkTo(taskGroupFiledKey.top)
                     },
-                imeAction = {
+                imeActionCallBack = {
 
-                }, keyboardType = KeyboardType.Email
+                }, keyboardType = KeyboardType.Email, imeAction = ImeAction.Next
             )
             UserInput(
                 value = taskGroupName,
@@ -193,9 +194,9 @@ fun RegisterScreen(controller: NavHostController) {
                         top.linkTo(emailFiledKey.bottom, margin = 20.dp)
                         bottom.linkTo(passwordFiledKey.top)
                     },
-                imeAction = {
+                imeActionCallBack = {
 
-                }, keyboardType = KeyboardType.Text
+                }, imeAction = ImeAction.Next
             )
 
             UserInputPassword(value = password,
@@ -214,9 +215,9 @@ fun RegisterScreen(controller: NavHostController) {
                 isPasswordShow = isPasswordShow,
                 passwordIconChange = {
                     isPasswordShow = !isPasswordShow
-                }, imeAction = {
+                }, imeActionCallBack = {
 
-                })
+                }, imeAction = ImeAction.Next)
             UserInputPassword(value = confirmpassword,
                 onValueChange = { confirmPasswordValue ->
                     confirmpassword = confirmPasswordValue
@@ -233,9 +234,9 @@ fun RegisterScreen(controller: NavHostController) {
                 isPasswordShow = isConfirmPasswordShow,
                 passwordIconChange = {
                     isConfirmPasswordShow = !isConfirmPasswordShow
-                }, isConfirmPassword = true, imeAction = {
+                }, imeActionCallBack = {
 
-                })
+                }, imeAction = ImeAction.Done)
 
             CustomAuthButton(title = "Sign up", onTap = {
                 Util.validateRegisterData(

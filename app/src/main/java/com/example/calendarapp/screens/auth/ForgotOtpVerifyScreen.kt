@@ -45,7 +45,7 @@ import com.example.calendarapp.util.UiConstant
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ForgotOtpVerifyScreen(controller: NavHostController) {
+fun ForgotOtpVerifyScreen(controller: NavHostController,email:String?) {
 
     var code1 by remember {
         mutableStateOf("")
@@ -85,9 +85,6 @@ fun ForgotOtpVerifyScreen(controller: NavHostController) {
 
             val (lockImageKey, screenTitleKey, emailFiledKey, sendButtonKey, loadingKey) = createRefs()
 
-            var email by remember {
-                mutableStateOf("")
-            }
 
             Box(
                 modifier = Modifier
@@ -117,7 +114,7 @@ fun ForgotOtpVerifyScreen(controller: NavHostController) {
             }
 
             Text(
-                text = "Please enter the 4 digit code sent to test@mailinator.com",
+                text = "Please enter the 4 digit code sent to $email",
                 style = MaterialTheme.typography.titleLarge.copy(color = MaterialTheme.colorScheme.primaryContainer),
                 fontFamily = UiConstant.robotoFontFamily,
                 modifier = Modifier.constrainAs(screenTitleKey) {
