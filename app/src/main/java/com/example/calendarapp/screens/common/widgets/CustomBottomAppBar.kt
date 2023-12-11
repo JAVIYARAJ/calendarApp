@@ -6,15 +6,15 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccessTime
-import androidx.compose.material.icons.filled.AddToDrive
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material.icons.filled.Group
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.TaskAlt
 import androidx.compose.material.icons.outlined.AccessTime
-import androidx.compose.material.icons.outlined.AddToDrive
+import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.DateRange
+import androidx.compose.material.icons.outlined.Group
 import androidx.compose.material.icons.outlined.Home
-import androidx.compose.material.icons.outlined.TaskAlt
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -40,8 +40,8 @@ fun CustomBottomAppBar(navController: NavHostController) {
     val bottomScreenItems = listOf(
         BottomScreens.Home,
         BottomScreens.Calendar,
-        BottomScreens.TaskGrop,
-        BottomScreens.Documents,
+        BottomScreens.CreateTask,
+        BottomScreens.Category,
         BottomScreens.History,
     )
 
@@ -104,18 +104,18 @@ sealed class BottomScreens(
         unSelectedIcon = Icons.Outlined.DateRange,
     )
 
-    object Documents : BottomScreens(
-        routes = Routes.DocumentRoute.route,
-        title = "Document",
-        selectedIcon = Icons.Default.AddToDrive,
-        unSelectedIcon = Icons.Outlined.AddToDrive,
+    object Category : BottomScreens(
+        routes = Routes.CategoryRoute.route,
+        title = "Category",
+        selectedIcon = Icons.Default.Group,
+        unSelectedIcon = Icons.Outlined.Group,
     )
 
-    object TaskGrop : BottomScreens(
-        routes = Routes.TaskGroupRoute.route,
+    object CreateTask : BottomScreens(
+        routes = Routes.CreateTaskRoute.route,
         title = "Task",
-        selectedIcon = Icons.Filled.TaskAlt,
-        unSelectedIcon = Icons.Outlined.TaskAlt,
+        selectedIcon = Icons.Filled.Add,
+        unSelectedIcon = Icons.Outlined.Add,
     )
 
     object History : BottomScreens(

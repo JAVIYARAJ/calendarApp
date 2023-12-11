@@ -15,6 +15,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.calendarapp.screens.common.widgets.CustomBottomAppBar
 import com.example.calendarapp.navigation.graph.HomeGraph
 
+@OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable

@@ -1,4 +1,4 @@
-package com.example.calendarapp.screens.common
+package com.example.calendarapp.screens.common.model
 
 import androidx.compose.ui.graphics.Color
 import com.example.calendarapp.R

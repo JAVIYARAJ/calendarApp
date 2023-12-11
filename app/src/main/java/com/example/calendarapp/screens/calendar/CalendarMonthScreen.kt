@@ -31,8 +31,6 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
-import androidx.compose.material.icons.filled.KeyboardArrowRight
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -52,6 +50,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.example.calendarapp.screens.task.model.tasksList
 import com.example.calendarapp.screens.calendar.widgets.CalendarDayCardWidget
 import com.example.calendarapp.screens.calendar.widgets.CalendarMonthCardWidget
 import com.example.calendarapp.screens.calendar.widgets.CalendarTaskCardWidget

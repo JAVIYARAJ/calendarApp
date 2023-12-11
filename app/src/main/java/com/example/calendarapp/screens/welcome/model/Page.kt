@@ -1,4 +1,4 @@
-package com.example.calendarapp.screens.welcome
+package com.example.calendarapp.screens.welcome.model
 
 import androidx.annotation.DrawableRes
 import com.example.calendarapp.R

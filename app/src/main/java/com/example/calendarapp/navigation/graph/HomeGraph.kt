@@ -1,6 +1,7 @@
 package com.example.calendarapp.navigation.graph
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
@@ -38,17 +39,19 @@ fun HomeGraph(homeNavController: NavHostController, onChange: () -> Unit) {
             )
         }
 
-        composable(Routes.DocumentRoute.route) {
+        composable(Routes.CategoryRoute.route) {
             DocumentScreen()
         }
 
-        composable(Routes.TaskGroupRoute.route) {
+        composable(Routes.CategoryRoute.route) {
             TaskGroupScreen(controller = homeNavController)
         }
 
         composable(Routes.TaskRoute.route) {
             val category = it.arguments?.getString("category")
-            TaskScreen(controller = homeNavController,category)
+            val color=it.arguments?.getString("color")
+            Log.e("TAG", "HomeGraph: ${color}", )
+            TaskScreen(controller = homeNavController,category,color)
         }
 
         composable(Routes.CreateTaskRoute.route){

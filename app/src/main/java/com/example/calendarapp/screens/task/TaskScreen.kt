@@ -1,14 +1,13 @@
 package com.example.calendarapp.screens.task
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -22,12 +21,9 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccessTimeFilled
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -44,53 +40,26 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.calendarapp.R
-import com.example.calendarapp.navigation.routes.Routes
 import com.example.calendarapp.screens.common.widgets.CustomScreenTopNavBar
+import com.example.calendarapp.screens.task.model.categoryList
+import com.example.calendarapp.screens.task.viewmodel.SharedTaskViewModel
 import com.example.calendarapp.ui.theme.primaryDarkColor
 import com.example.calendarapp.ui.theme.primaryLightColor
-import com.example.calendarapp.util.UiConstant
+import com.example.calendarapp.util.ExtensionFunction.Companion.convertIntoColor
 import com.example.calendarapp.util.UiConstant.robotoFontFamily
 
 @Composable
-fun TaskScreen(controller: NavHostController, category: String?) {
+fun TaskScreen(controller: NavHostController, category: String?,color:String?) {
+
+    val viewModel:SharedTaskViewModel= viewModel()
+
     Scaffold(topBar = {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Row(modifier = Modifier.weight(0.9f), verticalAlignment = Alignment.CenterVertically) {
-                IconButton(onClick = {
-                    controller.popBackStack()
-                }) {
-                    Icon(
-                        imageVector = Icons.Default.ArrowBack,
-                        contentDescription = "back_icon",
-                        tint = MaterialTheme.colorScheme.primaryContainer
-                    )
-                }
-                Text(
-                    text = "$category group",
-                    style = MaterialTheme.typography.titleLarge.copy(
-                        color = MaterialTheme.colorScheme.primaryContainer,
-                        fontFamily = UiConstant.robotoFontFamily
-                    )
-                )
-            }
-            IconButton(onClick = {
-                controller.navigate(Routes.CreateTaskRoute.route)
-            }, modifier = Modifier
-                .weight(0.1f)
-                .padding(end = 10.dp)) {
-                Icon(
-                    imageVector = Icons.Default.Add,
-                    contentDescription = "add_icon",
-                    tint = MaterialTheme.colorScheme.primaryContainer
-                )
-            }
-        }
+        CustomScreenTopNavBar(
+            title = "$category group",
+            onBackClick = { controller.popBackStack() })
     }) {
         LazyColumn(
             modifier = Modifier
@@ -98,15 +67,14 @@ fun TaskScreen(controller: NavHostController, category: String?) {
                 .then(Modifier.padding(it))
         ) {
             items(10) {
-                TaskItem()
+                TaskItem(color = color)
             }
         }
     }
 }
 
-@Preview
 @Composable
-fun TaskItem() {
+fun TaskItem(color: String?) {
     Surface(shape = RoundedCornerShape(10.dp), modifier = Modifier.padding(10.dp)) {
         ConstraintLayout(
             modifier = Modifier
@@ -126,7 +94,7 @@ fun TaskItem() {
                         bottom.linkTo(parent.bottom)
                     },
                 shape = RoundedCornerShape(topStart = 10.dp, bottomStart = 10.dp),
-                color = if (isSystemInDarkTheme()) primaryDarkColor else primaryLightColor
+                color =color?.convertIntoColor() ?: if(isSystemInDarkTheme()) primaryDarkColor else primaryLightColor
             ) {}
 
             ConstraintLayout(modifier = Modifier
@@ -138,9 +106,12 @@ fun TaskItem() {
                     bottom.linkTo(parent.bottom)
                 }
                 .background(
-                    color = if (isSystemInDarkTheme()) primaryDarkColor.copy(alpha = 0.6f) else primaryLightColor.copy(
-                        alpha = 0.6f
-                    )
+                    color = color
+                        ?.convertIntoColor()
+                        ?.copy(alpha = 0.8f) ?: if (isSystemInDarkTheme()) primaryDarkColor.copy(
+                        alpha = 0.8f
+                    ) else primaryLightColor.copy(alpha = 0.8f)
+
                 )
                 .padding(10.dp)) {
                 val (taskTitle, taskTimeRowKey, locationRowKey, optionMenuKey, taskDescriptionKey, dividerKey, peopleKey) = createRefs()

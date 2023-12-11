@@ -1,4 +1,4 @@
-package com.example.calendarapp.screens.auth
+package com.example.calendarapp.screens.auth.model
 
 import androidx.annotation.DrawableRes
 import com.example.calendarapp.R

@@ -87,4 +87,8 @@ dependencies {
     //material3
     implementation ("androidx.compose.material3:material3:1.2.0-alpha12")
 
+    //live data
+    implementation ("androidx.compose.runtime:runtime-livedata:1.0.0-beta01")
+
+
 }
