@@ -30,16 +30,26 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavHostController
+import com.example.calendarapp.navigation.routes.RouteQueryConstant.CATEGORY_QUERY
+import com.example.calendarapp.navigation.routes.Routes
 import com.example.calendarapp.screens.common.widgets.CustomScreenTopNavBar
 import com.example.calendarapp.screens.task.widgets.TaskGroupCardWidget
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TaskGroupScreen(controller: NavHostController) {
     Scaffold {
-        LazyColumn(modifier = Modifier.fillMaxSize().padding(it).then(Modifier.padding(bottom = 80.dp))) {
-            items(categoryList.size) {index->
-                TaskGroupCardWidget(categoryList[index])
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(it)
+                .then(Modifier.padding(bottom = 80.dp))
+        ) {
+            items(categoryList.size) { index ->
+                TaskGroupCardWidget(categoryList[index], onTap = {
+                    category->
+                    val route=Routes.TaskRoute.route.replace(CATEGORY_QUERY,category.categoryName)
+                    controller.navigate(route)
+                })
             }
         }
     }

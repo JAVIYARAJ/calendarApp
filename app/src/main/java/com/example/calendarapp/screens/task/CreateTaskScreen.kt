@@ -1,6 +1,8 @@
 package com.example.calendarapp.screens.task
 
 import android.annotation.SuppressLint
+import android.content.res.Configuration.UI_MODE_NIGHT_NO
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -14,18 +16,35 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.CalendarToday
+import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.DatePickerDialog
+import androidx.compose.material3.DateRangePicker
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.material3.rememberDateRangePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
@@ -36,6 +55,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
@@ -49,12 +69,23 @@ import com.example.calendarapp.ui.theme.inReviewTaskColor
 import com.example.calendarapp.ui.theme.onCancelTaskColor
 import com.example.calendarapp.ui.theme.onHoldTaskColor
 import com.example.calendarapp.util.UiConstant.robotoFontFamily
+import java.util.Calendar
 
-@SuppressLint("UnrememberedMutableState")
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview
+@SuppressLint("UnrememberedMutableState")
+@Preview(showSystemUi = true, showBackground = true, uiMode = UI_MODE_NIGHT_NO)
 @Composable
 fun CreateTaskScreen() {
+
+    var isDateDialogShow by remember {
+        mutableStateOf(false)
+    }
+
+    if (isDateDialogShow) {
+        CustomDatePicker(onDismiss = { isDateDialogShow = false }, onConfirm = {
+            isDateDialogShow = false
+        })
+    }
 
     val categories = mutableStateListOf(
         CategoryItemModel(
@@ -116,7 +147,9 @@ fun CreateTaskScreen() {
     }
 
     Scaffold(topBar = {
-        CustomScreenTopNavBar(title = "Create Task", onBackClick = {})
+        CustomScreenTopNavBar(title = "Create Task", onBackClick = {
+
+        })
     }) {
 
         var taskTitle by remember {
@@ -136,106 +169,109 @@ fun CreateTaskScreen() {
             mutableStateOf("")
         }
 
+        val items = listOf("1", "2")
+
+        val context = LocalContext.current
+        var expanded by remember { mutableStateOf(false) }
 
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(it)
+                .then(Modifier.padding(10.dp))
         ) {
 
-            UserInput(
+            Text(
+                text = "Task Title",
+                style = MaterialTheme.typography.titleMedium.copy(
+                    color = MaterialTheme.colorScheme.primaryContainer,
+                    fontFamily = robotoFontFamily
+                )
+            )
+            Spacer(modifier = Modifier.height(5.dp))
+            TextField(
                 value = taskTitle,
                 onValueChange = { title ->
                     taskTitle = title
                 },
-                hint = "Task Title",
+                shape = RoundedCornerShape(10.dp),
+                colors = TextFieldDefaults.colors(
+                    focusedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                    unfocusedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                    disabledContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                    cursorColor = MaterialTheme.colorScheme.background,
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent,
+                    disabledIndicatorColor = Color.Transparent,
+                    errorIndicatorColor = Color.Transparent,
+                ),
+                textStyle = MaterialTheme.typography.titleMedium.copy(color = MaterialTheme.colorScheme.background),
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 10.dp).then(Modifier.padding(top = 20.dp)),
-                imeActionCallBack = {
+                    .fillMaxWidth(),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Text,
+                    imeAction = ImeAction.Next
+                ),
+                keyboardActions = KeyboardActions(onNext = {
 
-                }, imeAction = ImeAction.Done
+                })
             )
-            Spacer(modifier = Modifier.height(20.dp))
-
+            Spacer(modifier = Modifier.height(10.dp))
             Text(
-                text = "Select task category",
+                text = "Task Description",
                 style = MaterialTheme.typography.titleMedium.copy(
                     color = MaterialTheme.colorScheme.primaryContainer,
                     fontFamily = robotoFontFamily
-                ), modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 10.dp)
+                )
             )
-            Spacer(modifier = Modifier.height(10.dp))
-
-            LazyVerticalStaggeredGrid(
-                columns = StaggeredGridCells.Adaptive(100.dp),
-                Modifier
+            Spacer(modifier = Modifier.height(5.dp))
+            TextField(
+                value = taskDescription,
+                onValueChange = { description ->
+                    taskDescription = description
+                },
+                shape = RoundedCornerShape(10.dp),
+                colors = TextFieldDefaults.colors(
+                    focusedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                    unfocusedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                    disabledContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                    cursorColor = MaterialTheme.colorScheme.background,
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent,
+                    disabledIndicatorColor = Color.Transparent,
+                    errorIndicatorColor = Color.Transparent,
+                ),
+                textStyle = MaterialTheme.typography.titleMedium.copy(color = MaterialTheme.colorScheme.background),
+                modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 10.dp)
-            ) {
-                items(categories) { category ->
-                    CategoryCardDesign(category, onTap = {
+                    .height(150.dp),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Text,
+                    imeAction = ImeAction.Next
+                ),
+                keyboardActions = KeyboardActions(onNext = {
 
-                    })
-                }
-
-            }
-
-            Spacer(modifier = Modifier.height(15.dp))
+                }), maxLines = 6
+            )
+            Spacer(modifier = Modifier.height(20.dp))
 
             Row(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 10.dp),
+                    .fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                UserInput(
-                    value = startDate,
-                    onValueChange = { startDateValue ->
-                        startDate = startDateValue
-                    },
-                    hint = "Start date",
-                    modifier = Modifier
-                        .weight(5f)
-                        .padding(horizontal = 5.dp),
-                    keyboardType = KeyboardType.Text,
-                    imeActionCallBack = {
-
-                    }, imeAction = ImeAction.Done
-                )
-
-                UserInput(
-                    value = endDate,
-                    onValueChange = { endDateValue ->
-                        endDate = endDateValue
-                    },
-                    hint = "End Date",
-                    modifier = Modifier
-                        .weight(5f)
-                        .padding(horizontal = 5.dp),
-                    imeActionCallBack = {
-
-                    }, imeAction = ImeAction.Done
-                )
+                DateShowCardWidget(modifier = Modifier.weight(5f), title = "Start Date") {
+                    isDateDialogShow = true
+                }
+                Spacer(modifier = Modifier.width(10.dp))
+                DateShowCardWidget(modifier = Modifier.weight(5f), title = "End Date") {
+                    isDateDialogShow = true
+                }
             }
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            Text(
-                text = "Select Participants",
-                style = MaterialTheme.typography.titleMedium.copy(
-                    color = MaterialTheme.colorScheme.primaryContainer,
-                    fontFamily = robotoFontFamily
-                ), modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 20.dp)
-            )
-            Spacer(modifier = Modifier.height(10.dp))
-            TaskParticipateSelectionCard(modifier = Modifier.padding(start = 20.dp))
-            Spacer(modifier = Modifier.height(15.dp))
         }
     }
 
@@ -248,44 +284,65 @@ data class CategoryItemModel(
     var isSelected: Boolean = false
 )
 
-@Composable
-fun CategoryCardDesign(category: CategoryItemModel, onTap: () -> Unit) {
 
-    Box(
-        modifier = Modifier
-            .padding(horizontal = 3.dp, vertical = 5.dp)
-            .clip(RoundedCornerShape(10.dp))
-            .background(color = category.color.copy(alpha = 0.7f))
-            .clickable { onTap.invoke() }
-            .border(
-                2.dp,
-                color = if (category.isSelected) MaterialTheme.colorScheme.primaryContainer else Color.Transparent
-            ), contentAlignment = Alignment.Center
-    ) {
-        Text(
-            text = category.item,
-            style = MaterialTheme.typography.titleMedium.copy(color = MaterialTheme.colorScheme.primaryContainer),
-            textAlign = TextAlign.Center,
-            modifier = Modifier.padding(horizontal = 3.dp, vertical = 5.dp)
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun CustomDatePicker(onDismiss: () -> Unit, onConfirm: () -> Unit) {
+    val datePickerState = rememberDateRangePickerState(
+        initialSelectedStartDateMillis = Calendar.getInstance().timeInMillis,
+        initialSelectedEndDateMillis = Calendar.getInstance().timeInMillis
+    )
+
+    DatePickerDialog(onDismissRequest = onDismiss, confirmButton = {
+        TextButton(onClick = { onConfirm.invoke() }) {
+            Text(text = "Confirm", style = MaterialTheme.typography.titleMedium)
+        }
+    }, dismissButton = {
+        TextButton(onClick = {
+            onDismiss.invoke()
+        }) {
+            Text(text = "Dismiss", style = MaterialTheme.typography.titleMedium)
+        }
+
+    }) {
+        DateRangePicker(
+            state = datePickerState,
+            modifier = Modifier.height(height = 500.dp) // if I don't set this, dialog's buttons are not appearing
         )
     }
+
 }
 
 
 @Composable
-fun TaskParticipateSelectionCard(modifier: Modifier) {
+fun DateShowCardWidget(modifier: Modifier, title: String, onTap: () -> Unit) {
     Box(
         modifier = modifier
-            .size(50.dp)
             .clip(RoundedCornerShape(10.dp))
-            .background(color = MaterialTheme.colorScheme.primaryContainer) ,contentAlignment = Alignment.Center
+            .clickable {
+                onTap.invoke()
+            }
+            .background(color = MaterialTheme.colorScheme.primaryContainer),
+        contentAlignment = Alignment.Center
     ) {
-        IconButton(onClick = {
-
-        }) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 10.dp, vertical = 15.dp)
+        ) {
             Icon(
-                imageVector = Icons.Default.Add,
-                contentDescription = "add_people", tint = MaterialTheme.colorScheme.background
+                imageVector = Icons.Default.CalendarToday,
+                contentDescription = "",
+                modifier = Modifier.weight(1f), tint = MaterialTheme.colorScheme.background
+            )
+            Spacer(modifier = Modifier.width(5.dp))
+            Text(
+                text = title,
+                style = MaterialTheme.typography.titleMedium.copy(
+                    fontFamily = robotoFontFamily,
+                    color = MaterialTheme.colorScheme.background
+                ), modifier = Modifier.weight(5f)
             )
         }
     }

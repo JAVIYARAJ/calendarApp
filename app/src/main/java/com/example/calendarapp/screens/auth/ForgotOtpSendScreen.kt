@@ -49,8 +49,6 @@ import com.example.calendarapp.util.ExtensionFunction.Companion.isEmailValid
 import com.example.calendarapp.util.UiConstant.robotoFontFamily
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3Api::class)
-
 @Composable
 fun ForgotOtpSendScreen(controller: NavHostController) {
 
@@ -89,8 +87,6 @@ fun ForgotOtpSendScreen(controller: NavHostController) {
         ) {
 
             val (lockImageKey, screenTitleKey, emailFiledKey, sendButtonKey, loadingKey) = createRefs()
-
-
 
             Box(
                 modifier = Modifier

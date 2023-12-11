@@ -43,7 +43,6 @@ import com.example.calendarapp.util.UiConstant.robotoFontFamily
 import com.example.calendarapp.util.UiConstant.widthModifier
 import com.example.calendarapp.util.Util
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 fun LoginScreen(controller: NavHostController, onLoginClick: () -> Unit) {
 

@@ -1,5 +1,6 @@
 package com.example.calendarapp.screens.common.widgets
 
+import android.util.Log
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -39,7 +40,7 @@ fun CustomBottomAppBar(navController: NavHostController) {
     val bottomScreenItems = listOf(
         BottomScreens.Home,
         BottomScreens.Calendar,
-        BottomScreens.Task,
+        BottomScreens.TaskGrop,
         BottomScreens.Documents,
         BottomScreens.History,
     )
@@ -48,8 +49,9 @@ fun CustomBottomAppBar(navController: NavHostController) {
 
     val currentDestination = backStackEntry?.destination
 
-    val isBottomAppBarVisible = bottomScreenItems.any { it.routes == currentDestination?.route }
-
+    val isBottomAppBarVisible =
+        bottomScreenItems.any { it.routes == currentDestination?.route }
+    Log.e("TAG", "CustomBottomAppBar: ${currentDestination?.route}")
     if (isBottomAppBarVisible) {
 
         NavigationBar(
@@ -58,7 +60,8 @@ fun CustomBottomAppBar(navController: NavHostController) {
             containerColor = if (isSystemInDarkTheme()) primaryDarkColor else primaryLightColor
         ) {
             bottomScreenItems.forEach { screen ->
-                val isSelected=currentDestination?.hierarchy?.any { it.route == screen.routes } == true
+                val isSelected =
+                    currentDestination?.hierarchy?.any { it.route == screen.routes } == true
                 NavigationBarItem(
                     label = { Text(text = screen.title) },
                     selected = isSelected,
@@ -68,7 +71,12 @@ fun CustomBottomAppBar(navController: NavHostController) {
                             launchSingleTop = true
                         }
                     },
-                    icon = { Icon(imageVector = if(isSelected) screen.selectedIcon else screen.unSelectedIcon, contentDescription = screen.title) },
+                    icon = {
+                        Icon(
+                            imageVector = if (isSelected) screen.selectedIcon else screen.unSelectedIcon,
+                            contentDescription = screen.title
+                        )
+                    },
                     modifier = Modifier.clip(CircleShape),
                 )
             }
@@ -103,8 +111,8 @@ sealed class BottomScreens(
         unSelectedIcon = Icons.Outlined.AddToDrive,
     )
 
-    object Task : BottomScreens(
-        routes = Routes.TaskRoute.route,
+    object TaskGrop : BottomScreens(
+        routes = Routes.TaskGroupRoute.route,
         title = "Task",
         selectedIcon = Icons.Filled.TaskAlt,
         unSelectedIcon = Icons.Outlined.TaskAlt,

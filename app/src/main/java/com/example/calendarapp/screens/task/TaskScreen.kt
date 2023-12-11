@@ -4,9 +4,11 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -20,10 +22,14 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccessTimeFilled
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -38,21 +44,62 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.navigation.NavHostController
 import com.example.calendarapp.R
+import com.example.calendarapp.navigation.routes.Routes
+import com.example.calendarapp.screens.common.widgets.CustomScreenTopNavBar
 import com.example.calendarapp.ui.theme.primaryDarkColor
 import com.example.calendarapp.ui.theme.primaryLightColor
+import com.example.calendarapp.util.UiConstant
 import com.example.calendarapp.util.UiConstant.robotoFontFamily
 
-@Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun TaskScreen() {
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(bottom = 75.dp)
-    ) {
-        items(10) {
-            TaskItem()
+fun TaskScreen(controller: NavHostController, category: String?) {
+    Scaffold(topBar = {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Row(modifier = Modifier.weight(0.9f), verticalAlignment = Alignment.CenterVertically) {
+                IconButton(onClick = {
+                    controller.popBackStack()
+                }) {
+                    Icon(
+                        imageVector = Icons.Default.ArrowBack,
+                        contentDescription = "back_icon",
+                        tint = MaterialTheme.colorScheme.primaryContainer
+                    )
+                }
+                Text(
+                    text = "$category group",
+                    style = MaterialTheme.typography.titleLarge.copy(
+                        color = MaterialTheme.colorScheme.primaryContainer,
+                        fontFamily = UiConstant.robotoFontFamily
+                    )
+                )
+            }
+            IconButton(onClick = {
+                controller.navigate(Routes.CreateTaskRoute.route)
+            }, modifier = Modifier
+                .weight(0.1f)
+                .padding(end = 10.dp)) {
+                Icon(
+                    imageVector = Icons.Default.Add,
+                    contentDescription = "add_icon",
+                    tint = MaterialTheme.colorScheme.primaryContainer
+                )
+            }
+        }
+    }) {
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .then(Modifier.padding(it))
+        ) {
+            items(10) {
+                TaskItem()
+            }
         }
     }
 }
@@ -95,8 +142,7 @@ fun TaskItem() {
                         alpha = 0.6f
                     )
                 )
-                .padding(10.dp))
-            {
+                .padding(10.dp)) {
                 val (taskTitle, taskTimeRowKey, locationRowKey, optionMenuKey, taskDescriptionKey, dividerKey, peopleKey) = createRefs()
 
                 Text(
@@ -111,7 +157,8 @@ fun TaskItem() {
                             start.linkTo(parent.start)
                             end.linkTo(parent.end)
                             top.linkTo(parent.top)
-                        }, textAlign = TextAlign.Start,
+                        },
+                    textAlign = TextAlign.Start,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis
                 )
@@ -127,7 +174,8 @@ fun TaskItem() {
                             start.linkTo(parent.start)
                             end.linkTo(parent.end)
                             top.linkTo(taskTitle.bottom, 10.dp)
-                        }, textAlign = TextAlign.Start,
+                        },
+                    textAlign = TextAlign.Start,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis
                 )
@@ -162,9 +210,7 @@ fun TaskItem() {
                         start.linkTo(parent.start, 20.dp)
                         end.linkTo(parent.end, 20.dp)
                         top.linkTo(locationRowKey.bottom, 10.dp)
-                    },
-                    color = MaterialTheme.colorScheme.primaryContainer,
-                    thickness = 2.dp
+                    }, color = MaterialTheme.colorScheme.primaryContainer, thickness = 2.dp
                 )
 
                 Row(
@@ -201,11 +247,10 @@ fun TaskItem() {
                 )
 
                 TasKPeopleUi(
-                    modifier = Modifier
-                        .constrainAs(peopleKey) {
-                            end.linkTo(parent.end)
-                            top.linkTo(taskTimeRowKey.bottom, 10.dp)
-                        }, peopleList = listOfPeople
+                    modifier = Modifier.constrainAs(peopleKey) {
+                        end.linkTo(parent.end)
+                        top.linkTo(taskTimeRowKey.bottom, 10.dp)
+                    }, peopleList = listOfPeople
                 )
 
             }
@@ -229,8 +274,7 @@ fun TasKPeopleUi(modifier: Modifier, peopleList: List<Int>) {
                     val overlapOffset = (40.dp * overlapPercentage * index)
 
                     if (index == defaultPeopleSize) {
-                        MorePeopleUi(
-                            modifier = Modifier.offset(-overlapOffset),
+                        MorePeopleUi(modifier = Modifier.offset(-overlapOffset),
                             value = listSize - defaultPeopleSize,
                             onTap = {
 
@@ -283,16 +327,12 @@ fun MorePeopleUi(modifier: Modifier, value: Int, onTap: () -> Unit) {
             )
             .clickable {
                 onTap.invoke()
-            },
-        contentAlignment = Alignment.Center
+            }, contentAlignment = Alignment.Center
     ) {
         Text(
-            text = "+${value}",
-            style = MaterialTheme.typography.titleMedium.copy(
-                fontFamily = robotoFontFamily,
-                color = MaterialTheme.colorScheme.primaryContainer
-            ),
-            textAlign = TextAlign.Center
+            text = "+${value}", style = MaterialTheme.typography.titleMedium.copy(
+                fontFamily = robotoFontFamily, color = MaterialTheme.colorScheme.primaryContainer
+            ), textAlign = TextAlign.Center
         )
     }
 }

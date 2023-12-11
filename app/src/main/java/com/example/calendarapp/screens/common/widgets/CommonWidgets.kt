@@ -68,8 +68,8 @@ fun UserInput(
     hintStyle: TextStyle = MaterialTheme.typography.titleMedium.copy(color = MaterialTheme.colorScheme.background),
     modifier: Modifier,
     inSingleLine: Boolean = true,
-    keyboardType: KeyboardType=KeyboardType.Text,
-    imeAction:ImeAction,
+    keyboardType: KeyboardType = KeyboardType.Text,
+    imeAction: ImeAction,
     imeActionCallBack: () -> Unit
 ) {
     TextField(
@@ -80,13 +80,15 @@ fun UserInput(
         },
         shape = RoundedCornerShape(10.dp),
         singleLine = inSingleLine,
-        colors = TextFieldDefaults.textFieldColors(
-            disabledIndicatorColor = Color.Transparent,
-            errorIndicatorColor = Color.Transparent,
+        colors = TextFieldDefaults.colors(
+            focusedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+            unfocusedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+            disabledContainerColor = MaterialTheme.colorScheme.primaryContainer,
+            cursorColor = MaterialTheme.colorScheme.background,
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
-            containerColor = MaterialTheme.colorScheme.primaryContainer,
-            cursorColor = MaterialTheme.colorScheme.background
+            disabledIndicatorColor = Color.Transparent,
+            errorIndicatorColor = Color.Transparent,
         ),
         textStyle = hintStyle,
         modifier = modifier,
@@ -211,7 +213,6 @@ fun CustomProgressBar(
     var animationStatus by remember {
         mutableStateOf(false)
     }
-
 
 
     val animation = animateFloatAsState(

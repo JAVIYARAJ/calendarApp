@@ -11,12 +11,15 @@ import com.example.calendarapp.screens.document.DocumentScreen
 import com.example.calendarapp.screens.calendar.CalendarMonthScreen
 import com.example.calendarapp.screens.history.HistoryScreen
 import com.example.calendarapp.screens.home.HomeScreen
+import com.example.calendarapp.screens.profile.ProfileScreen
+import com.example.calendarapp.screens.task.CreateTaskScreen
 import com.example.calendarapp.screens.task.TaskGroupScreen
+import com.example.calendarapp.screens.task.TaskScreen
 import com.example.calendarapp.util.Util
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun HomeGraph(homeNavController: NavHostController,onChange:()->Unit) {
+fun HomeGraph(homeNavController: NavHostController, onChange: () -> Unit) {
 
     NavHost(
         navController = homeNavController,
@@ -28,23 +31,37 @@ fun HomeGraph(homeNavController: NavHostController,onChange:()->Unit) {
         }
 
         composable(Routes.CalendarRoute.route) {
-            CalendarMonthScreen(yearValue = Util.getYear(),monthValue = Util.getMonth(),onChange=onChange)
+            CalendarMonthScreen(
+                yearValue = Util.getYear(),
+                monthValue = Util.getMonth(),
+                onChange = onChange
+            )
         }
 
         composable(Routes.DocumentRoute.route) {
             DocumentScreen()
         }
 
-        composable(Routes.TaskRoute.route) {
+        composable(Routes.TaskGroupRoute.route) {
             TaskGroupScreen(controller = homeNavController)
+        }
+
+        composable(Routes.TaskRoute.route) {
+            val category = it.arguments?.getString("category")
+            TaskScreen(controller = homeNavController,category)
+        }
+
+        composable(Routes.CreateTaskRoute.route){
+            CreateTaskScreen()
         }
 
         composable(Routes.HistoryRoute.route) {
             HistoryScreen()
         }
 
-        composable(Routes.HomeTaskGroupRoutes.route){
-            TaskGroupScreen(controller = homeNavController)
+        composable(Routes.ProfileRoute.route){
+            ProfileScreen()
         }
+
     }
 }

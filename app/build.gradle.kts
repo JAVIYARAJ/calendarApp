@@ -76,9 +76,15 @@ dependencies {
     implementation ("androidx.compose.material:material-icons-extended:1.5.4")
 
     //constraint layout
-    implementation ("androidx.constraintlayout:constraintlayout-compose:1.0.1")
+    implementation ("androidx.constraintlayout:constraintlayout-compose:1.1.0-alpha13")
 
     //Accompanist
     implementation ("com.google.accompanist:accompanist-systemuicontroller:0.31.4-beta")
+
+    //color picker
+    implementation("com.github.skydoves:colorpicker-compose:1.0.7")
+
+    //material3
+    implementation ("androidx.compose.material3:material3:1.2.0-alpha12")
 
 }

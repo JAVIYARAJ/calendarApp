@@ -16,6 +16,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ElevatedButton
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -171,7 +172,7 @@ fun AuthContinueLabelWidget(modifier: Modifier) {
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Divider(
+        HorizontalDivider(
             modifier = Modifier.weight(2.5f),
             thickness = 1.dp, color = MaterialTheme.colorScheme.primaryContainer
         )
@@ -182,7 +183,7 @@ fun AuthContinueLabelWidget(modifier: Modifier) {
             textAlign = TextAlign.Center,
             color = MaterialTheme.colorScheme.primaryContainer
         )
-        Divider(
+        HorizontalDivider(
             modifier = Modifier.weight(2.5f),
             thickness = 1.dp, color = MaterialTheme.colorScheme.primaryContainer
         )

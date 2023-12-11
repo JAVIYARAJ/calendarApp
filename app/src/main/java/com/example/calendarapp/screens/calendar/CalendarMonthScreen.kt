@@ -29,12 +29,14 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -67,7 +69,7 @@ fun CalendarMonthScreen(yearValue: Int?, monthValue: Int?, onChange: () -> Unit)
     MonthView(yearValue, monthValue)
 }
 
-@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalFoundationApi::class)
 @RequiresApi(Build.VERSION_CODES.O)
 
 @Composable
@@ -162,98 +164,127 @@ fun MonthView(yearValue: Int?, monthValue: Int?) {
         }
     }.value
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(top = 5.dp, bottom = 75.dp)
-    ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-
-            IconButton(onClick = {
-                selectedDay = -1
-                animationType = AnimatedContentTransitionScope.SlideDirection.Down
-                if (month == 1) {
-                    month = 12
-                    year -= 1
-                } else {
-                    month -= 1
-                }
-            }) {
-                Icon(
-                    Icons.Default.KeyboardArrowLeft,
-                    "down_icon",
-                    modifier = Modifier.size(30.dp),
-                    tint = if (isSystemInDarkTheme()) primaryDarkColor else primaryLightColor
-                )
-            }
-
-            AnimatedContent(
-                targetState = calenderTitle,
-                transitionSpec = {
-                    slideIntoContainer(
-                        towards = animationType, animationSpec = tween(durationMillis = 200)
-                    ) togetherWith ExitTransition.None
-                },
-                modifier = Modifier.width(200.dp),
-                label = "",
-            ) {
-                Text(
-                    text = it,
-                    style = MaterialTheme.typography.titleLarge,
-                    modifier = UiConstant.widthModifier,
-                    textAlign = TextAlign.Center,
-                    color = if (isSystemInDarkTheme()) primaryDarkColor else primaryLightColor
-                )
-            }
-            IconButton(onClick = {
-                selectedDay = -1
-                animationType = AnimatedContentTransitionScope.SlideDirection.Up
-
-                if (month == 12) {
-                    year += 1
-                    month = 1
-                } else {
-                    month += 1
-                }
-            }) {
-                Icon(
-                    Icons.Default.KeyboardArrowRight,
-                    "up_icon",
-                    modifier = Modifier.size(30.dp),
-                    tint = if (isSystemInDarkTheme()) primaryDarkColor else primaryLightColor
-                )
-            }
-            if (Util.getMonth() == month && selectedDay != -1 && selectedDay != currentDay) {
-                CalendarMonthCardWidget(currentDay.toString(), onTap = {
-                    isDayCardShow = false
-                    selectedDay = -1
-                    currentDay = Util.getDay()
-                }, modifier = Modifier.offset(0.dp, dayCardOffset))
-            }
-        }
-        Spacer(modifier = Modifier.height(10.dp))
-        Row(
+    Scaffold {
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 2.5.dp),
-            horizontalArrangement = Arrangement.Center
+                .fillMaxSize()
+                .padding(top = 5.dp, bottom = 75.dp).then(Modifier.padding(it))
         ) {
-            repeat(listOfDaysTitle.size) {
-                Text(
-                    text = listOfDaysTitle[it],
-                    style = MaterialTheme.typography.titleSmall,
-                    modifier = Modifier.weight(1f),
-                    textAlign = TextAlign.Center
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+
+                IconButton(onClick = {
+                    selectedDay = -1
+                    animationType = AnimatedContentTransitionScope.SlideDirection.Down
+                    if (month == 1) {
+                        month = 12
+                        year -= 1
+                    } else {
+                        month -= 1
+                    }
+                }) {
+                    Icon(
+                        Icons.Default.KeyboardArrowLeft,
+                        "down_icon",
+                        modifier = Modifier.size(30.dp),
+                        tint = if (isSystemInDarkTheme()) primaryDarkColor else primaryLightColor
+                    )
+                }
+
+                AnimatedContent(
+                    targetState = calenderTitle,
+                    transitionSpec = {
+                        slideIntoContainer(
+                            towards = animationType, animationSpec = tween(durationMillis = 200)
+                        ) togetherWith ExitTransition.None
+                    },
+                    modifier = Modifier.width(200.dp),
+                    label = "",
+                ) {
+                    Text(
+                        text = it,
+                        style = MaterialTheme.typography.titleLarge,
+                        modifier = UiConstant.widthModifier,
+                        textAlign = TextAlign.Center,
+                        color = if (isSystemInDarkTheme()) primaryDarkColor else primaryLightColor
+                    )
+                }
+                IconButton(onClick = {
+                    selectedDay = -1
+                    animationType = AnimatedContentTransitionScope.SlideDirection.Up
+
+                    if (month == 12) {
+                        year += 1
+                        month = 1
+                    } else {
+                        month += 1
+                    }
+                }) {
+                    Icon(
+                        Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                        "up_icon",
+                        modifier = Modifier.size(30.dp),
+                        tint = if (isSystemInDarkTheme()) primaryDarkColor else primaryLightColor
+                    )
+                }
+
+                if (Util.getMonth() == month && selectedDay != -1 && selectedDay != currentDay) {
+                    CalendarMonthCardWidget(currentDay.toString(), onTap = {
+                        isDayCardShow = false
+                        selectedDay = -1
+                        currentDay = Util.getDay()
+                    }, modifier = Modifier.offset(0.dp, dayCardOffset))
+                }
+            }
+            Spacer(modifier = Modifier.height(10.dp))
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 2.5.dp),
+                horizontalArrangement = Arrangement.Center
+            ) {
+                repeat(listOfDaysTitle.size) {
+                    Text(
+                        text = listOfDaysTitle[it],
+                        style = MaterialTheme.typography.titleSmall,
+                        modifier = Modifier.weight(1f),
+                        textAlign = TextAlign.Center
+                    )
+                }
+            }
+
+            /*
+            HorizontalPager(state = pagerState, modifier = widthModifier) {
+                LazyVerticalGrid(
+                    columns = GridCells.Fixed(count = 7),
+                    content = {
+                        items(disableDayCount) {
+                            Surface {
+
+                            }
+                        }
+                        items(totalDaysCount) {
+                            val dayValue = it + 1
+                            CalendarDayCardWidget(
+                                day = dayValue.toString(),
+                                isCurrentDay = currentMonth == month && dayValue == currentDay,
+                                isAnyEvent = it == 15,
+                                onTap = {
+
+                                }
+                            )
+
+                        }
+                    },
+                    contentPadding = PaddingValues(3.dp),
                 )
             }
-        }
 
-        /*
-        HorizontalPager(state = pagerState, modifier = widthModifier) {
+             */
+
             LazyVerticalGrid(
                 columns = GridCells.Fixed(count = 7),
                 content = {
@@ -262,61 +293,36 @@ fun MonthView(yearValue: Int?, monthValue: Int?) {
 
                         }
                     }
-                    items(totalDaysCount) {
-                        val dayValue = it + 1
+                    items(totalDaysCount) { day ->
+                        val dayValue = day + 1
                         CalendarDayCardWidget(
                             day = dayValue.toString(),
-                            isCurrentDay = currentMonth == month && dayValue == currentDay,
-                            isAnyEvent = it == 15,
+                            isCurrentDay = selectedDay == -1 && isSameMonth && dayValue == currentDay,
                             onTap = {
+                                isDayCardShow = true
+                                selectedDay = dayValue
 
-                            }
+                                if (selectedDay == currentDay) {
+                                    selectedDay = -1
+                                    currentDay = Util.getDay()
+                                }
+                            },
+                            isOtherDaySelected = selectedDay == dayValue
                         )
-
                     }
                 },
-                contentPadding = PaddingValues(3.dp),
+                contentPadding = PaddingValues(3.dp)
             )
-        }
 
-         */
-
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(count = 7),
-            content = {
-                items(disableDayCount) {
-                    Surface {
-
-                    }
+            //all current task widget
+            LazyColumn(modifier = Modifier.fillMaxWidth()) {
+                items(tasksList.size) {
+                    CalendarTaskCardWidget(tasksList[it])
                 }
-                items(totalDaysCount) { day ->
-                    val dayValue = day + 1
-                    CalendarDayCardWidget(
-                        day = dayValue.toString(),
-                        isCurrentDay = selectedDay == -1 && isSameMonth && dayValue == currentDay,
-                        onTap = {
-                            isDayCardShow = true
-                            selectedDay = dayValue
-
-                            if (selectedDay == currentDay) {
-                                selectedDay = -1
-                                currentDay = Util.getDay()
-                            }
-                        },
-                        isOtherDaySelected = selectedDay == dayValue
-                    )
-                }
-            },
-            contentPadding = PaddingValues(3.dp)
-        )
-        
-        //all current task widget
-        LazyColumn(modifier = Modifier.fillMaxWidth()) {
-            items(tasksList.size) {
-                CalendarTaskCardWidget(tasksList[it])
             }
         }
     }
 }
+
 
 

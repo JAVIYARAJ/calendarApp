@@ -2,6 +2,7 @@ package com.example.calendarapp.screens.home.widgets
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -110,9 +111,8 @@ fun HomeProgressCardWidget(progressRate:Float) {
 }
 
 
-@Preview
 @Composable
-fun HomeTopBarWidget() {
+fun HomeTopBarWidget(onTap:()->Unit) {
     Row(
         modifier = UiConstant.widthModifier.padding(horizontal = 10.dp, vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -125,7 +125,7 @@ fun HomeTopBarWidget() {
                 .size(50.dp)
                 .clip(
                     CircleShape
-                ),
+                ).clickable { onTap.invoke() },
             contentScale = ContentScale.Crop
         )
         Spacer(modifier = Modifier.width(20.dp))

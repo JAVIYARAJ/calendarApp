@@ -17,7 +17,6 @@ import com.example.calendarapp.navigation.graph.HomeGraph
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @RequiresApi(Build.VERSION_CODES.O)
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeContentScreen() {
     val homeNavHostController = rememberNavController()

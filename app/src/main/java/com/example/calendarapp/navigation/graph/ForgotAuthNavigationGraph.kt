@@ -1,15 +1,13 @@
 package com.example.calendarapp.navigation.graph
 
-import android.util.Log
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.example.calendarapp.navigation.routes.Routes
 import com.example.calendarapp.screens.auth.ConfirmPasswordScreen
-import com.example.calendarapp.screens.auth.ForgotOtpVerifyScreen
 import com.example.calendarapp.screens.auth.ForgotOtpSendScreen
-import kotlin.math.log
+import com.example.calendarapp.screens.auth.ForgotOtpVerifyScreen
 
 fun NavGraphBuilder.forgotNavigationGraph(controller: NavHostController) {
     navigation(

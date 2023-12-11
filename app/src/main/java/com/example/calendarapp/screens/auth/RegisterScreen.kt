@@ -59,7 +59,6 @@ import com.example.calendarapp.util.UiConstant.widthModifier
 import com.example.calendarapp.util.Util
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 fun RegisterScreen(controller: NavHostController) {
     var email by remember {

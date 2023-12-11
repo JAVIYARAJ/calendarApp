@@ -43,7 +43,7 @@ import com.example.calendarapp.ui.theme.primaryDarkColor
 import com.example.calendarapp.ui.theme.primaryLightColor
 import com.example.calendarapp.util.UiConstant
 
-@OptIn(ExperimentalMaterial3Api::class)
+
 @Composable
 fun ConfirmPasswordScreen(controller: NavHostController) {
 
@@ -84,8 +84,6 @@ fun ConfirmPasswordScreen(controller: NavHostController) {
         ) {
 
             val (lockImageKey, screenTitleKey, passwordFiledKey, confirmPasswordFiledKey, sendButtonKey, loadingKey) = createRefs()
-
-
 
             Box(
                 modifier = Modifier

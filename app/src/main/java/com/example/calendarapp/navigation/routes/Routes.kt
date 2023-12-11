@@ -1,5 +1,6 @@
 package com.example.calendarapp.navigation.routes
 
+import com.example.calendarapp.navigation.routes.RouteQueryConstant.CATEGORY_QUERY
 import com.example.calendarapp.navigation.routes.RouteQueryConstant.EMAIL_QUERY
 
 sealed class Routes(val route: String) {
@@ -22,12 +23,14 @@ sealed class Routes(val route: String) {
         object HomeRootRoute: Routes(route = "home_root_route")
 
             object HomeRoute: Routes(route = "home_route")
+            object ProfileRoute: Routes(route = "profile_route")
 
-                object HomeTaskGroupRoutes:Routes(route = "home_task_group_route")
 
             object CalendarRoute: Routes(route = "calendar_route")
             object DocumentRoute: Routes(route = "document_route")
-            object TaskRoute: Routes(route = "task_route")
+            object TaskGroupRoute: Routes(route = "task_group_route")
+                object TaskRoute: Routes(route = "task_route/${CATEGORY_QUERY}")
+                object CreateTaskRoute: Routes(route = "create_task_route")
             object HistoryRoute: Routes(route = "history_route")
 
 }
@@ -35,4 +38,5 @@ sealed class Routes(val route: String) {
 
 object RouteQueryConstant{
     const val EMAIL_QUERY="{email}"
+    const val CATEGORY_QUERY="{category}"
 }

@@ -84,8 +84,6 @@ fun ForgotOtpVerifyScreen(controller: NavHostController,email:String?) {
         ) {
 
             val (lockImageKey, screenTitleKey, emailFiledKey, sendButtonKey, loadingKey) = createRefs()
-
-
             Box(
                 modifier = Modifier
                     .size(200.dp)
@@ -186,8 +184,6 @@ fun ForgotOtpVerifyScreen(controller: NavHostController,email:String?) {
                 )
 
             }
-
-
 
             CustomAuthButton(title = "Verify", modifier = Modifier
                 .fillMaxWidth()

@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -106,7 +107,7 @@ fun CalendarTaskCardWidget(task: TaskModel) {
                 }
             )
 
-            Divider(
+            HorizontalDivider(
                 modifier = Modifier
                     .width(3.dp)
                     .height(80.dp)
@@ -117,7 +118,7 @@ fun CalendarTaskCardWidget(task: TaskModel) {
                         top.linkTo(startKey.bottom)
                         bottom.linkTo(endKey.top)
                     },
-                color = Color.Gray,
+                color = Color.Gray
             )
 
             Text(

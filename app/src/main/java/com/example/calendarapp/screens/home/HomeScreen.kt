@@ -4,6 +4,12 @@ package com.example.calendarapp.screens.home
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,9 +22,15 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.calendarapp.R
@@ -35,54 +47,12 @@ import com.example.calendarapp.ui.theme.onCancelTaskColor
 import com.example.calendarapp.ui.theme.onHoldTaskColor
 import com.example.calendarapp.ui.theme.primaryDarkColor
 import com.example.calendarapp.util.UiConstant.widthModifier
+import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalMaterial3Api::class)
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun HomeScreen(controller: NavHostController) {
-
-    /*
-    val allDaysList = Util.getCurrentWeekDates()
-
-    val pagerState = rememberPagerState(initialPage = 0) {
-        allDaysList.size
-    }
-    
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-    ) {
-        Spacer(modifier = Modifier.height(20.dp))
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 2.5.dp),
-            horizontalArrangement = Arrangement.Center
-        ) {
-            DAYS_TITLE.forEach { title ->
-                Text(
-                    text = title,
-                    style = MaterialTheme.typography.titleMedium,
-                    modifier = Modifier.weight(1f),
-                    textAlign = TextAlign.Center
-                )
-            }
-        }
-        Row(modifier = Modifier.fillMaxWidth()) {
-            repeat(allDaysList.size) { index ->
-                CalendarDayCardWidget(
-                    day = allDaysList[index],
-                    modifier = Modifier.weight(1f),
-                    isCurrentDay = (if (Util.getDay()
-                            .toString().length == 1
-                    ) "0" + Util.getDay().toString() else "") == allDaysList[index]
-                )
-            }
-        }
-
-    }
-
-     */
 
     val taskGroupList = listOf(
         TaskGroupItem(
@@ -126,12 +96,15 @@ fun HomeScreen(controller: NavHostController) {
     )
 
     Scaffold(topBar = {
-        HomeTopBarWidget()
+        HomeTopBarWidget(onTap = {
+            controller.navigate(Routes.ProfileRoute.route)
+        })
     }) {
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(it).then(Modifier.padding(bottom = 80.dp))
+                .padding(it)
+                .then(Modifier.padding(bottom = 80.dp))
         ) {
             item {
                 HomeProgressCardWidget(progressRate = 0.9f)
@@ -148,7 +121,8 @@ fun HomeScreen(controller: NavHostController) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 10.dp),
+                        .padding(horizontal = 10.dp)
+                        .then(Modifier.padding(vertical = 2.5.dp)),
                     horizontalArrangement = Arrangement.SpaceAround,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -174,7 +148,8 @@ fun HomeScreen(controller: NavHostController) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 10.dp),
+                        .padding(horizontal = 10.dp)
+                        .then(Modifier.padding(vertical = 2.5.dp)),
                     horizontalArrangement = Arrangement.SpaceAround,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -189,10 +164,11 @@ fun HomeScreen(controller: NavHostController) {
                             .padding(2.dp), onCancelTaskColor
                     )
                     HomeTaskStatusCardWidget(
-                        "Urgent", "2", modifier = Modifier
+                        "Urgent", "20", modifier = Modifier
                             .weight(2f)
                             .padding(2.dp), primaryDarkColor
                     )
+
                 }
             }
 
@@ -227,4 +203,3 @@ fun HomeScreen(controller: NavHostController) {
 
 
 }
-
