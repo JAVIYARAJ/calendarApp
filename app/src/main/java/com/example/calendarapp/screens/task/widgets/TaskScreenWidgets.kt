@@ -1,5 +1,6 @@
 package com.example.calendarapp.screens.task.widgets
 
+import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
@@ -122,19 +123,23 @@ fun TaskProgressItemWidget() {
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun TaskGroupCardWidget(categoryModel: TaskCategoryModel, onTap: (TaskCategoryModel) -> Unit) {
+fun TaskGroupCardWidget(
+    categoryModel: TaskCategoryModel,
+    onTap: (TaskCategoryModel) -> Unit,
+    onColorChange: (Color) -> Unit
+) {
     val listOfTaskStatus = listOf("In Progress", "In Review", "On Hold", "Canceled")
 
     val taskList = categoryModel.taskList
 
     val listOfTaskProgressData = listOf(
-        taskList.filter { it.taskStatus==TaskStatus.IN_PROGRESS }.size.toString(),
-        taskList.filter { it.taskStatus==TaskStatus.IN_REVIEW }.size.toString(),
-        taskList.filter { it.taskStatus==TaskStatus.ON_HOLD }.size.toString(),
-        taskList.filter { it.taskStatus==TaskStatus.ON_CANCELED }.size.toString()
+        taskList.filter { it.taskStatus == TaskStatus.IN_PROGRESS }.size.toString(),
+        taskList.filter { it.taskStatus == TaskStatus.IN_REVIEW }.size.toString(),
+        taskList.filter { it.taskStatus == TaskStatus.ON_HOLD }.size.toString(),
+        taskList.filter { it.taskStatus == TaskStatus.ON_CANCELED }.size.toString()
     )
 
-    var selectedTaskGroupColor by remember {
+    val selectedTaskGroupColor by remember {
         mutableStateOf(primaryLightColor)
     }
 
@@ -150,6 +155,7 @@ fun TaskGroupCardWidget(categoryModel: TaskCategoryModel, onTap: (TaskCategoryMo
         ColorPickerDialogWidget(onDismiss = {
             isColorPickerDialogShow = false
         }, onConfirm = {
+            onColorChange.invoke(it)
             isColorPickerDialogShow = false
         }, defaultColor = selectedTaskGroupColor)
     }
@@ -170,20 +176,18 @@ fun TaskGroupCardWidget(categoryModel: TaskCategoryModel, onTap: (TaskCategoryMo
                     .height(150.dp)
                     .background(
                         color = categoryModel.color
-                            .convertIntoColor()
                     )
                     .combinedClickable(
                         onClick = {
                             onTap.invoke(categoryModel)
                         }, onLongClick = {
                             isColorPickerDialogShow = true
-                            selectedTaskGroupColor = categoryModel.color.convertIntoColor()
                         }
                     )
 
             ) {
 
-                val (topCardDesignKey, titleKey, completedLabelKey, completedValueKey, moreIconKey, optionDropDownMenuKey) = createRefs()
+                val (topCardDesignKey, titleKey, completedLabelKey, completedValueKey, moreIconKey, timeLocationKey) = createRefs()
 
                 Surface(
                     modifier = Modifier
@@ -192,7 +196,7 @@ fun TaskGroupCardWidget(categoryModel: TaskCategoryModel, onTap: (TaskCategoryMo
                         .constrainAs(topCardDesignKey) {
                         },
                     shape = RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp),
-                    color = categoryModel.color.convertIntoColor()
+                    color = categoryModel.color
                 ) {
 
                 }
@@ -238,7 +242,7 @@ fun TaskGroupCardWidget(categoryModel: TaskCategoryModel, onTap: (TaskCategoryMo
                         top.linkTo(titleKey.bottom, 10.dp)
                     })
                 Text(
-                    text =taskList.filter { it.taskStatus==TaskStatus.COMPLETED }.size.toString(),
+                    text = taskList.filter { it.taskStatus == TaskStatus.COMPLETED }.size.toString(),
                     style = MaterialTheme.typography.headlineMedium.copy(
                         color = MaterialTheme.colorScheme.background,
                         fontFamily = UiConstant.rubikBubblesFontFamily
@@ -338,9 +342,7 @@ fun ColorPickerDialogWidget(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(200.dp),
-                    controller = colorPickerController, onColorChanged = {
-
-                    }, initialColor = defaultColor
+                    controller = colorPickerController, initialColor = defaultColor
                 )
                 Spacer(modifier = Modifier.height(10.dp))
                 AlphaTile(

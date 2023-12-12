@@ -197,6 +197,19 @@ class Util {
             }
         }
 
+        fun greetMessage(progressRate:Float):String{
+            return if(progressRate>=0.9){
+                "Great job! You've completed most of your tasks today. Keep up the excellent work!"
+            }else if(progressRate>=0.7 && progressRate<0.9){
+                "You're doing well! Most tasks are completed. A little push, and you'll hit your goal!"
+            }else if(progressRate>=0.5 &&progressRate<0.7){
+                "You're halfway there! Keep going, and you'll achieve your daily goals."
+            }else if(progressRate>=0.3 && progressRate<0.5){
+                "Let's pick up the pace! There's still time to complete more tasks today."
+            }else{
+                "It's not too late to turn things around! Start with the most important tasks and make the day count."
+            }
+        }
 
     }
 }

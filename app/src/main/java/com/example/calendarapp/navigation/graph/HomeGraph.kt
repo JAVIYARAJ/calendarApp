@@ -1,9 +1,9 @@
 package com.example.calendarapp.navigation.graph
 
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -16,11 +16,14 @@ import com.example.calendarapp.screens.profile.ProfileScreen
 import com.example.calendarapp.screens.task.CreateTaskScreen
 import com.example.calendarapp.screens.task.TaskGroupScreen
 import com.example.calendarapp.screens.task.TaskScreen
+import com.example.calendarapp.screens.task.viewmodel.SharedTaskViewModel
 import com.example.calendarapp.util.Util
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun HomeGraph(homeNavController: NavHostController, onChange: () -> Unit) {
+
+    val sharedTaskViewModel:SharedTaskViewModel= viewModel()
 
     NavHost(
         navController = homeNavController,
@@ -28,14 +31,12 @@ fun HomeGraph(homeNavController: NavHostController, onChange: () -> Unit) {
         startDestination = Routes.HomeRoute.route,
     ) {
         composable(Routes.HomeRoute.route) {
-            HomeScreen(controller = homeNavController)
+            HomeScreen(controller = homeNavController,sharedTaskViewModel)
         }
 
         composable(Routes.CalendarRoute.route) {
             CalendarMonthScreen(
-                yearValue = Util.getYear(),
-                monthValue = Util.getMonth(),
-                onChange = onChange
+                yearValue = Util.getYear(), monthValue = Util.getMonth(), onChange = onChange
             )
         }
 
@@ -44,17 +45,15 @@ fun HomeGraph(homeNavController: NavHostController, onChange: () -> Unit) {
         }
 
         composable(Routes.CategoryRoute.route) {
-            TaskGroupScreen(controller = homeNavController)
+            TaskGroupScreen(controller = homeNavController,sharedTaskViewModel)
         }
 
         composable(Routes.TaskRoute.route) {
             val category = it.arguments?.getString("category")
-            val color=it.arguments?.getString("color")
-            Log.e("TAG", "HomeGraph: ${color}", )
-            TaskScreen(controller = homeNavController,category,color)
+            TaskScreen(controller = homeNavController, category, sharedTaskViewModel)
         }
 
-        composable(Routes.CreateTaskRoute.route){
+        composable(Routes.CreateTaskRoute.route) {
             CreateTaskScreen()
         }
 
@@ -62,7 +61,7 @@ fun HomeGraph(homeNavController: NavHostController, onChange: () -> Unit) {
             HistoryScreen()
         }
 
-        composable(Routes.ProfileRoute.route){
+        composable(Routes.ProfileRoute.route) {
             ProfileScreen()
         }
 

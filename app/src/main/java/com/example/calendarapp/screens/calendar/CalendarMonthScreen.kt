@@ -50,7 +50,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.example.calendarapp.screens.task.model.tasksList
+import com.example.calendarapp.data.tasksList
 import com.example.calendarapp.screens.calendar.widgets.CalendarDayCardWidget
 import com.example.calendarapp.screens.calendar.widgets.CalendarMonthCardWidget
 import com.example.calendarapp.screens.calendar.widgets.CalendarTaskCardWidget
@@ -315,8 +315,8 @@ fun MonthView(yearValue: Int?, monthValue: Int?) {
 
             //all current task widget
             LazyColumn(modifier = Modifier.fillMaxWidth()) {
-                items(tasksList.size) {
-                    CalendarTaskCardWidget(tasksList[it])
+                items(tasksList.size) {index->
+                    CalendarTaskCardWidget(tasksList[index])
                 }
             }
         }

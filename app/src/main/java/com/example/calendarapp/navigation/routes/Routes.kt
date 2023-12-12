@@ -27,7 +27,7 @@ sealed class Routes(val route: String) {
             object CalendarRoute: Routes(route = "calendar_route")
 
             object CategoryRoute: Routes(route = "category_route")
-                object TaskRoute: Routes(route = "task_route/${CATEGORY_QUERY}/${CATEGORY_COLOR}")
+                object TaskRoute: Routes(route = "task_route/${CATEGORY_QUERY}")
             object HistoryRoute: Routes(route = "history_route")
 
             object CreateTaskRoute: Routes(route = "create_task_route")

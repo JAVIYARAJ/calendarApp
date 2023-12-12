@@ -1,30 +1,54 @@
 package com.example.calendarapp.screens.task.viewmodel
 
-import androidx.compose.runtime.mutableStateListOf
+import android.graphics.Color
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import com.example.calendarapp.data.ColorModel
+import com.example.calendarapp.data.categoryList
 import com.example.calendarapp.screens.task.model.TaskCategoryModel
 import com.example.calendarapp.screens.task.model.TaskModel
+import com.example.calendarapp.ui.theme.primaryDarkColor
 
-class SharedTaskViewModel:ViewModel() {
+class SharedTaskViewModel : ViewModel() {
 
-    private val taskCategoryList= mutableStateListOf<TaskCategoryModel>()
-    private val taskList= mutableStateListOf<TaskModel>()
+    private var taskCategory by mutableStateOf<List<TaskCategoryModel>?>(null)
+    private var taskList by mutableStateOf<List<TaskModel>?>(null)
+    private var selectedCategoryColor by mutableStateOf<androidx.compose.ui.graphics.Color>(
+        primaryDarkColor)
 
-    fun setTaskCategoryList(list:List<TaskCategoryModel>){
-        taskCategoryList.clear()
-        taskCategoryList.addAll(list)
+    init {
+        taskCategory = categoryList
     }
 
-    fun getTaskCategoryList():List<TaskCategoryModel>{
-        return taskCategoryList
+    fun setTaskCategoryValue(list: List<TaskCategoryModel>) {
+        taskCategory = list
     }
 
-    fun setTaskList(list:List<TaskModel>){
-        taskList.addAll(list)
+    fun getTaskCategoryValue(): List<TaskCategoryModel>? {
+        return taskCategory
     }
 
-    fun getTaskList():List<TaskModel>{
+    fun setTaskListValue(list: List<TaskModel>) {
+        taskList = list
+    }
+
+    fun getTaskListValue(): List<TaskModel>? {
         return taskList
     }
 
+    fun changeTaskCategoryColor(index:Int,color:androidx.compose.ui.graphics.Color){
+        taskCategory?.let {
+            it[index].color=color
+        }
+    }
+
+    fun setCategoryColor(color:androidx.compose.ui.graphics.Color){
+        selectedCategoryColor=color
+    }
+
+    fun getCategoryColor():androidx.compose.ui.graphics.Color{
+        return selectedCategoryColor
+    }
 }

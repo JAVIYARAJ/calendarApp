@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id ("kotlin-parcelize")
 }
 
 android {
@@ -89,6 +90,10 @@ dependencies {
 
     //live data
     implementation ("androidx.compose.runtime:runtime-livedata:1.0.0-beta01")
+
+    //coil network image
+    implementation("io.coil-kt:coil-compose:2.5.0")
+
 
 
 }

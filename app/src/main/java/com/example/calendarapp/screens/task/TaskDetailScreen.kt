@@ -107,7 +107,7 @@ fun TaskDetailScreen() {
 
             Spacer(modifier = Modifier.height(10.dp))
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-                TasKPeopleUi(modifier = Modifier, listOfPeople)
+                //TaskAssignPeopleListWidget(modifier = Modifier, listOfPeople)
             }
             Spacer(modifier = Modifier.height(10.dp))
             Row(

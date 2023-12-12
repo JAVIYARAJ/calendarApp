@@ -21,12 +21,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.calendarapp.R
+import com.example.calendarapp.data.currentUser
 import com.example.calendarapp.navigation.routes.Routes
 import com.example.calendarapp.screens.common.model.TaskGroupItem
 import com.example.calendarapp.screens.home.widgets.HomeProgressCardWidget
 import com.example.calendarapp.screens.home.widgets.HomeTaskStatusCardWidget
 import com.example.calendarapp.screens.home.widgets.HomeTopBarWidget
 import com.example.calendarapp.screens.home.widgets.TaskGroupCardWidget
+import com.example.calendarapp.screens.task.viewmodel.SharedTaskViewModel
 import com.example.calendarapp.ui.theme.completedTaskColor
 import com.example.calendarapp.ui.theme.inProgressTaskColor
 import com.example.calendarapp.ui.theme.inReviewTaskColor
@@ -35,10 +37,9 @@ import com.example.calendarapp.ui.theme.onHoldTaskColor
 import com.example.calendarapp.ui.theme.primaryDarkColor
 import com.example.calendarapp.util.UiConstant.widthModifier
 
-@OptIn(ExperimentalMaterial3Api::class)
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun HomeScreen(controller: NavHostController) {
+fun HomeScreen(controller: NavHostController, sharedTaskViewModel: SharedTaskViewModel) {
 
     val taskGroupList = listOf(
         TaskGroupItem(
@@ -82,7 +83,7 @@ fun HomeScreen(controller: NavHostController) {
     )
 
     Scaffold(topBar = {
-        HomeTopBarWidget(onTap = {
+        HomeTopBarWidget(userModel = currentUser, onTap = {
             controller.navigate(Routes.ProfileRoute.route)
         })
     }) {
@@ -177,10 +178,16 @@ fun HomeScreen(controller: NavHostController) {
                 }
 
             }
+            sharedTaskViewModel.getTaskCategoryValue()?.let { category ->
+                val list = if (category.size > 3) category.subList(0, 3) else category
 
-            item {
-                repeat(taskGroupList.size) { taskGroup ->
-                    TaskGroupCardWidget(taskGroupList[taskGroup])
+                item {
+                    repeat(list.size) { index ->
+                        TaskGroupCardWidget(
+                            index = (index+1),
+                            taskCategoryModel = list[index]
+                        )
+                    }
                 }
             }
 

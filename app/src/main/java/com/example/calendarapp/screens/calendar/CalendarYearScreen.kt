@@ -48,6 +48,7 @@ fun YearView(navHostController: NavHostController) {
             .fillMaxSize(),
         verticalArrangement = Arrangement.Top
     ) {
+
         val listOfDaysTitle = listOf("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat")
 
         items(Constant.MONTHS.size) {
