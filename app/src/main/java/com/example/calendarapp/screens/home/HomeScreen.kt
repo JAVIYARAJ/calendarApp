@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.calendarapp.R
 import com.example.calendarapp.data.currentUser
+import com.example.calendarapp.navigation.routes.RouteQueryConstant
 import com.example.calendarapp.navigation.routes.Routes
 import com.example.calendarapp.screens.common.model.TaskGroupItem
 import com.example.calendarapp.screens.home.widgets.HomeProgressCardWidget
@@ -40,47 +41,6 @@ import com.example.calendarapp.util.UiConstant.widthModifier
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun HomeScreen(controller: NavHostController, sharedTaskViewModel: SharedTaskViewModel) {
-
-    val taskGroupList = listOf(
-        TaskGroupItem(
-            id = "1",
-            title = "Office Project",
-            taskSize = 50,
-            completedTaskSize = 12,
-            taskGroupIcon = R.drawable.ic_office_task_group_icon,
-            taskGridColor = Color(0XFF9B59B6)
-        ),
-        TaskGroupItem(
-            id = "2",
-            title = "Personal Project",
-            taskSize = 20,
-            completedTaskSize = 2,
-            taskGroupIcon = R.drawable.ic_project_task_group_icon,
-            taskGridColor = Color(0XFFD68910)
-        ),
-        TaskGroupItem(
-            id = "3",
-            title = "Home",
-            taskSize = 35,
-            completedTaskSize = 9,
-            taskGroupIcon = R.drawable.ic_home_task_group_icon,
-            taskGridColor = Color(0XFF3498DB)
-        ),
-        TaskGroupItem(
-            id = "4",
-            title = "Daily Task",
-            taskSize = 50,
-            completedTaskSize = 12,
-            taskGroupIcon = R.drawable.ic_daily_task_group_icon
-        ),
-        TaskGroupItem(
-            id = "5",
-            title = "Data structure",
-            taskSize = 12,
-            completedTaskSize = 2,
-            taskGridColor = Color(0XFF48C9B0)
-        )
-    )
 
     Scaffold(topBar = {
         HomeTopBarWidget(userModel = currentUser, onTap = {
@@ -185,7 +145,14 @@ fun HomeScreen(controller: NavHostController, sharedTaskViewModel: SharedTaskVie
                     repeat(list.size) { index ->
                         TaskGroupCardWidget(
                             index = (index+1),
-                            taskCategoryModel = list[index]
+                            taskCategoryModel = list[index],
+                            onTap = {
+                                val route =
+                                    Routes.TaskRoute.route.replace(RouteQueryConstant.CATEGORY_QUERY,list[index].categoryName)
+                                sharedTaskViewModel.setCategoryColor(list[index].color)
+                                sharedTaskViewModel.setTaskListValue(list[index].taskList)
+                                controller.navigate(route)
+                            }
                         )
                     }
                 }

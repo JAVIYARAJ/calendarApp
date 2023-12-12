@@ -19,6 +19,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreHoriz
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -147,7 +149,7 @@ fun TaskGroupCardWidget(
         mutableStateOf(false)
     }
 
-    var isOptionMenuVisible by remember {
+    var isDropDownVisible by remember {
         mutableStateOf(false)
     }
 
@@ -187,7 +189,7 @@ fun TaskGroupCardWidget(
 
             ) {
 
-                val (topCardDesignKey, titleKey, completedLabelKey, completedValueKey, moreIconKey, timeLocationKey) = createRefs()
+                val (topCardDesignKey, titleKey, completedLabelKey, completedValueKey, moreIconKey, dropDownKey) = createRefs()
 
                 Surface(
                     modifier = Modifier
@@ -202,14 +204,14 @@ fun TaskGroupCardWidget(
                 }
                 Text(
                     text = categoryModel.categoryName,
-                    style = MaterialTheme.typography.titleLarge.copy(color = MaterialTheme.colorScheme.background),
+                    style = MaterialTheme.typography.titleLarge.copy(color = MaterialTheme.colorScheme.primaryContainer),
                     modifier = Modifier.constrainAs(titleKey) {
                         start.linkTo(parent.start, 20.dp)
                         top.linkTo(topCardDesignKey.bottom, 20.dp)
                     })
 
                 IconButton(
-                    onClick = { isOptionMenuVisible = true },
+                    onClick = { isDropDownVisible = !isDropDownVisible },
                     modifier = Modifier.constrainAs(moreIconKey) {
                         end.linkTo(parent.end, 10.dp)
                         top.linkTo(parent.top)
@@ -217,26 +219,16 @@ fun TaskGroupCardWidget(
                     Icon(
                         imageVector = Icons.Default.MoreHoriz,
                         contentDescription = "",
-                        tint = MaterialTheme.colorScheme.background
+                        tint = MaterialTheme.colorScheme.primaryContainer
                     )
                 }
-                /*
-                DropdownMenu(expanded = isOptionMenuVisible, onDismissRequest = { isOptionMenuVisible=false }, modifier = Modifier.constrainAs(optionDropDownMenuKey){
-                   start.linkTo(titleKey.start)
-                    top.linkTo(parent.top)
-                    bottom.linkTo(parent.bottom)
-                    end.linkTo(parent.end)
-                }) {
-                    optionMenuList.forEach {
-                        DropdownMenuItem(text = { Text(text = it)}, onClick = { isOptionMenuVisible=false })
-                    }
-                }
-
-                 */
 
                 Text(
                     text = "Completed",
-                    style = MaterialTheme.typography.headlineSmall.copy(color = MaterialTheme.colorScheme.background),
+                    style = MaterialTheme.typography.headlineSmall.copy(
+                        color = MaterialTheme.colorScheme.primaryContainer,
+                        fontFamily = robotoFontFamily
+                    ),
                     modifier = Modifier.constrainAs(completedLabelKey) {
                         start.linkTo(parent.start, 20.dp)
                         top.linkTo(titleKey.bottom, 10.dp)
@@ -244,7 +236,7 @@ fun TaskGroupCardWidget(
                 Text(
                     text = taskList.filter { it.taskStatus == TaskStatus.COMPLETED }.size.toString(),
                     style = MaterialTheme.typography.headlineMedium.copy(
-                        color = MaterialTheme.colorScheme.background,
+                        color = MaterialTheme.colorScheme.primaryContainer,
                         fontFamily = UiConstant.rubikBubblesFontFamily
                     ),
                     modifier = Modifier.constrainAs(completedValueKey) {
@@ -278,8 +270,8 @@ fun TaskGroupCardWidget(
                         Text(
                             text = listOfTaskStatus[it],
                             style = MaterialTheme.typography.bodySmall.copy(
-                                color = MaterialTheme.colorScheme.background,
-                                fontFamily = UiConstant.robotoFontFamily
+                                color = MaterialTheme.colorScheme.primaryContainer,
+                                fontFamily = robotoFontFamily
                             ),
                             modifier = Modifier.weight(1f),
                             textAlign = TextAlign.Center
@@ -300,7 +292,7 @@ fun TaskGroupCardWidget(
                         Text(
                             text = listOfTaskProgressData[it],
                             style = MaterialTheme.typography.headlineMedium.copy(
-                                color = MaterialTheme.colorScheme.background,
+                                color = MaterialTheme.colorScheme.primaryContainer,
                                 fontFamily = UiConstant.rubikBubblesFontFamily
                             ), modifier = Modifier.weight(1f),
                             textAlign = TextAlign.Center

@@ -83,7 +83,7 @@ fun TaskItem(taskModel: TaskModel,color: Color) {
                     color =color
                 )
         ) {
-            val (taskTitle, taskTimeRowKey, timeRowKey, optionMenuKey, taskDescriptionKey, peopleKey, createdByKey, locationKey,dateAndLocationKey) = createRefs()
+            val (taskTitle, taskDescriptionKey, peopleKey, createdByKey, locationKey,dateAndLocationKey) = createRefs()
 
             Box(modifier = Modifier
                 .constrainAs(createdByKey) {
@@ -94,7 +94,7 @@ fun TaskItem(taskModel: TaskModel,color: Color) {
                 .background(color = if (isSystemInDarkTheme()) primaryLightColor else primaryDarkColor)) {
                 Text(
                     text = "${taskModel.createdBy.firstname} ${taskModel.createdBy.lastname}",
-                    style = MaterialTheme.typography.titleSmall.copy(color = MaterialTheme.colorScheme.background),
+                    style = MaterialTheme.typography.titleSmall.copy(color = MaterialTheme.colorScheme.primaryContainer),
                     modifier = Modifier.padding(horizontal = 10.dp)
                 )
             }

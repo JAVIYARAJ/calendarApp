@@ -38,6 +38,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import coil.compose.AsyncImage
+import coil.compose.rememberAsyncImagePainter
+import coil.transform.CircleCropTransformation
 import com.example.calendarapp.R
 import com.example.calendarapp.screens.auth.model.UserModel
 import com.example.calendarapp.screens.common.model.TaskGroupItem
@@ -97,7 +99,7 @@ fun HomeProgressCardWidget(progressRate: Float) {
                     end.linkTo(parent.end, margin = 15.dp)
                     bottom.linkTo(parent.bottom, 10.dp)
                 },
-                textSize = 15.sp
+                textSize = 15.sp, color = if(isSystemInDarkTheme()) primaryLightColor else primaryDarkColor
             )
 
         }
@@ -150,11 +152,12 @@ fun HomeTopBarWidget(userModel: UserModel, onTap: () -> Unit) {
 
 
 @Composable
-fun TaskGroupCardWidget(index:Int,taskCategoryModel: TaskCategoryModel) {
+fun TaskGroupCardWidget(index:Int,taskCategoryModel: TaskCategoryModel,onTap: () -> Unit) {
     Surface(
         modifier = UiConstant.widthModifier
             .height(80.dp)
-            .then(Modifier.padding(horizontal = 10.dp, vertical = 5.dp)),
+            .then(Modifier.padding(horizontal = 10.dp, vertical = 5.dp))
+            .clickable { onTap.invoke() },
         shape = RoundedCornerShape(10.dp),
         color = taskCategoryModel.color
     ) {
