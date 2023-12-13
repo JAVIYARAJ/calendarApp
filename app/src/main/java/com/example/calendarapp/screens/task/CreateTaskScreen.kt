@@ -61,7 +61,6 @@ import com.example.calendarapp.ui.theme.onHoldTaskColor
 import com.example.calendarapp.util.UiConstant.robotoFontFamily
 import java.util.Calendar
 
-@OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnrememberedMutableState")
 @Preview(showSystemUi = true, showBackground = true, uiMode = UI_MODE_NIGHT_NO)
 @Composable

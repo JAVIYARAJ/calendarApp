@@ -54,7 +54,7 @@ fun TaskScreen(
 
 
     Scaffold(topBar = {
-        CustomScreenTopNavBar(title = "$category group", onBackClick = {
+        CustomScreenTopNavBar(title = "$category tasks", onBackClick = {
             controller.popBackStack()
         })
     }) { padding ->

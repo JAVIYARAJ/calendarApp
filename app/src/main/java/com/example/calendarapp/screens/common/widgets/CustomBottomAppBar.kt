@@ -16,6 +16,7 @@ import androidx.compose.material.icons.outlined.DateRange
 import androidx.compose.material.icons.outlined.Group
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
@@ -33,6 +34,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.calendarapp.navigation.routes.Routes
 import com.example.calendarapp.ui.theme.primaryDarkColor
 import com.example.calendarapp.ui.theme.primaryLightColor
+import com.example.calendarapp.util.UiConstant.robotoFontFamily
 
 @Composable
 fun CustomBottomAppBar(navController: NavHostController) {
@@ -63,7 +65,7 @@ fun CustomBottomAppBar(navController: NavHostController) {
                 val isSelected =
                     currentDestination?.hierarchy?.any { it.route == screen.routes } == true
                 NavigationBarItem(
-                    label = { Text(text = screen.title) },
+                    label = { Text(text = screen.title, style = MaterialTheme.typography.titleSmall.copy(color = MaterialTheme.colorScheme.primaryContainer, fontFamily = robotoFontFamily)) },
                     selected = isSelected,
                     onClick = {
                         navController.navigate(screen.routes) {
