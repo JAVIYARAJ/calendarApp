@@ -1,7 +1,13 @@
 package com.example.calendarapp.screens.common.widgets
 
+import android.graphics.drawable.Icon
 import android.util.Log
+import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -15,6 +21,8 @@ import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.DateRange
 import androidx.compose.material.icons.outlined.Group
 import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material3.Badge
+import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
@@ -22,10 +30,12 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -64,8 +74,17 @@ fun CustomBottomAppBar(navController: NavHostController) {
             bottomScreenItems.forEach { screen ->
                 val isSelected =
                     currentDestination?.hierarchy?.any { it.route == screen.routes } == true
+
                 NavigationBarItem(
-                    label = { Text(text = screen.title, style = MaterialTheme.typography.titleSmall.copy(color = MaterialTheme.colorScheme.primaryContainer, fontFamily = robotoFontFamily)) },
+                    label = {
+                        Text(
+                            text = screen.title,
+                            style = MaterialTheme.typography.titleSmall.copy(
+                                color = MaterialTheme.colorScheme.primaryContainer,
+                                fontFamily = robotoFontFamily
+                            )
+                        )
+                    },
                     selected = isSelected,
                     onClick = {
                         navController.navigate(screen.routes) {
@@ -79,7 +98,6 @@ fun CustomBottomAppBar(navController: NavHostController) {
                             contentDescription = screen.title
                         )
                     },
-                    modifier = Modifier.clip(CircleShape),
                 )
             }
         }
@@ -126,4 +144,30 @@ sealed class BottomScreens(
         selectedIcon = Icons.Filled.AccessTime,
         unSelectedIcon = Icons.Outlined.AccessTime,
     )
+}
+
+
+@Composable
+fun CustomBottomNavIcon(title: String, icon: ImageVector) {
+    Box(
+        modifier = Modifier
+            .size(50.dp)
+            .clip(RoundedCornerShape(10.dp))
+            .background(color = Color.White),
+        contentAlignment = Alignment.Center
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.padding(5.dp)
+        ) {
+            Icon(imageVector = icon, contentDescription = "", tint = Color.Black)
+            Text(
+                text = title,
+                style = MaterialTheme.typography.titleSmall.copy(
+                    color = Color.Black,
+                    fontFamily = robotoFontFamily
+                )
+            )
+        }
+    }
 }

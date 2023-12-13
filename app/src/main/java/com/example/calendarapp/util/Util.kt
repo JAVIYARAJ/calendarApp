@@ -4,6 +4,9 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
+import com.example.calendarapp.R
+import com.example.calendarapp.screens.task.model.TaskPriorityTAG
+import com.example.calendarapp.screens.task.model.TaskStatus
 import com.example.calendarapp.util.ExtensionFunction.Companion.isEmailValid
 import com.example.calendarapp.util.ExtensionFunction.Companion.isPasswordStrong
 import kotlinx.coroutines.CoroutineScope
@@ -211,5 +214,36 @@ class Util {
             }
         }
 
+        fun convertTaskStatus(taskStatus: TaskStatus):String{
+            return when(taskStatus){
+                TaskStatus.COMPLETED->"Completed"
+                TaskStatus.IN_PROGRESS->"In Progress"
+                TaskStatus.IN_REVIEW->"In Review"
+                TaskStatus.ON_CANCELED->"On Canceled"
+                TaskStatus.ON_HOLD->"On Hold"
+                else->"None"
+            }
+        }
+
+        fun convertTaskPriority(taskPriorityTAG: TaskPriorityTAG):String{
+            return when(taskPriorityTAG){
+                TaskPriorityTAG.LOW->"Low"
+                TaskPriorityTAG.HIGH->"High"
+                TaskPriorityTAG.MEDIUM->"Medium"
+                TaskPriorityTAG.URGENT->"Urgent"
+                else->"None"
+            }
+        }
+
+        fun getTaskStatusIcon(taskStatus: TaskStatus):Int{
+            return when(taskStatus){
+                TaskStatus.COMPLETED-> R.drawable.ic_completed_icon
+                TaskStatus.IN_PROGRESS->R.drawable.ic_in_progress_icon
+                TaskStatus.IN_REVIEW->R.drawable.ic_in_review_icon
+                TaskStatus.ON_CANCELED->R.drawable.ic_reject_icon
+                TaskStatus.ON_HOLD->R.drawable.ic_on_hold_icon
+                else->R.drawable.ic_reject_icon
+            }
+        }
     }
 }

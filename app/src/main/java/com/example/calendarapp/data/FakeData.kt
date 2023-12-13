@@ -5,6 +5,7 @@ import com.example.calendarapp.screens.auth.model.UserModel
 import com.example.calendarapp.screens.calendar.TaskAttachmentType
 import com.example.calendarapp.screens.task.model.TaskCategoryModel
 import com.example.calendarapp.screens.task.model.TaskModel
+import com.example.calendarapp.screens.task.model.TaskPriorityTAG
 import com.example.calendarapp.screens.task.model.TaskStatus
 import com.example.calendarapp.util.ExtensionFunction.Companion.convertIntoColor
 import kotlinx.parcelize.Parcelize
@@ -81,6 +82,7 @@ val categoryList = listOf(
                 assignTo = listOf(
                     currentUser
                 ),
+                taskPriorityTAG = TaskPriorityTAG.HIGH,
                 cratedAt = "2023-01-02",
                 updatedAt = "2023-01-06",
                 location = "Thiruvananthapuram, Kerala - Kowdiar",
@@ -94,10 +96,13 @@ val categoryList = listOf(
                 category = "Android Development",
                 attachmentType = TaskAttachmentType.DOC,
                 taskStatus = TaskStatus.COMPLETED,
+                taskPriorityTAG = TaskPriorityTAG.MEDIUM,
                 createdBy = currentUser,
                 assignTo = listOf(
                     fakeUser1,
-                    fakeUser2
+                    fakeUser2,
+                    fakeUser3,
+                    fakeUser1
                 ),
                 cratedAt = "2023-01-03",
                 updatedAt = "2023-01-07",
@@ -114,6 +119,7 @@ val categoryList = listOf(
                 category = "Android Development",
                 attachmentType = TaskAttachmentType.DOC,
                 taskStatus = TaskStatus.COMPLETED,
+                taskPriorityTAG = TaskPriorityTAG.URGENT,
                 createdBy = fakeUser1,
                 assignTo = listOf(
                     fakeUser1
@@ -130,6 +136,7 @@ val categoryList = listOf(
                 category = "Android Development",
                 attachmentType = TaskAttachmentType.DOC,
                 taskStatus = TaskStatus.ON_HOLD,
+                taskPriorityTAG = TaskPriorityTAG.LOW,
                 createdBy = currentUser,
                 assignTo = listOf(
                     currentUser,
@@ -149,6 +156,26 @@ val categoryList = listOf(
                 category = "Android Development",
                 attachmentType = TaskAttachmentType.IMAGE,
                 taskStatus = TaskStatus.IN_REVIEW,
+                taskPriorityTAG = TaskPriorityTAG.MEDIUM,
+                createdBy = currentUser,
+                assignTo = listOf(
+                    currentUser
+                ),
+                cratedAt = "2023-01-06",
+                updatedAt = "2023-01-10",
+                location = null,
+                startDate = "2023-12-12 03:20 AM",
+                endDate = null
+
+            ),
+            TaskModel(
+                id = "7",
+                title = "Stripe configuration",
+                description = "Integrate stripe payment gateway in Calendar app",
+                category = "Android Development",
+                attachmentType = TaskAttachmentType.DOC,
+                taskStatus = TaskStatus.ON_HOLD,
+                taskPriorityTAG = TaskPriorityTAG.LOW,
                 createdBy = currentUser,
                 assignTo = listOf(
                     currentUser
@@ -176,6 +203,7 @@ val categoryList = listOf(
                 category = "Flutter Development",
                 attachmentType = TaskAttachmentType.PDF,
                 taskStatus = TaskStatus.IN_PROGRESS,
+                taskPriorityTAG = TaskPriorityTAG.HIGH,
                 createdBy = currentUser,
                 assignTo = listOf(
                     fakeUser2,
@@ -196,6 +224,7 @@ val categoryList = listOf(
                 category = "Flutter Development",
                 attachmentType = TaskAttachmentType.VIDEO,
                 taskStatus = TaskStatus.COMPLETED,
+                taskPriorityTAG = TaskPriorityTAG.LOW,
                 createdBy = fakeUser1,
                 assignTo = listOf(
                     fakeUser2,
@@ -216,6 +245,7 @@ val categoryList = listOf(
                 category = "Flutter Development",
                 attachmentType = TaskAttachmentType.LINK,
                 taskStatus = TaskStatus.IN_REVIEW,
+                taskPriorityTAG = TaskPriorityTAG.MEDIUM,
                 createdBy = fakeUser4,
                 assignTo = listOf(
                     currentUser,
@@ -236,6 +266,7 @@ val categoryList = listOf(
                 category = "Flutter Development",
                 attachmentType = TaskAttachmentType.LINK,
                 taskStatus = TaskStatus.ON_CANCELED,
+                taskPriorityTAG = TaskPriorityTAG.URGENT,
                 createdBy = currentUser,
                 assignTo = listOf(
                     fakeUser5
@@ -254,6 +285,7 @@ val categoryList = listOf(
                 category = "Flutter Development",
                 attachmentType = TaskAttachmentType.VIDEO,
                 taskStatus = TaskStatus.IN_REVIEW,
+                taskPriorityTAG = TaskPriorityTAG.LOW,
                 createdBy = currentUser,
                 assignTo = listOf(
                     fakeUser4,
@@ -282,6 +314,7 @@ val categoryList = listOf(
                 category = "Data Structure",
                 attachmentType = TaskAttachmentType.PDF,
                 taskStatus = TaskStatus.COMPLETED,
+                taskPriorityTAG = TaskPriorityTAG.LOW,
                 createdBy = currentUser,
                 assignTo = listOf(
                     currentUser,
@@ -303,6 +336,7 @@ val categoryList = listOf(
                 category = "Data Structure",
                 attachmentType = TaskAttachmentType.VIDEO,
                 taskStatus = TaskStatus.COMPLETED,
+                taskPriorityTAG = TaskPriorityTAG.HIGH,
                 createdBy = fakeUser3,
                 assignTo = listOf(
                     currentUser,
@@ -332,6 +366,7 @@ val categoryList = listOf(
                 category = "Daily Task",
                 attachmentType = TaskAttachmentType.VIDEO,
                 taskStatus = TaskStatus.IN_PROGRESS,
+                taskPriorityTAG = TaskPriorityTAG.HIGH,
                 createdBy = currentUser,
                 assignTo = listOf(
                     currentUser,
@@ -344,6 +379,14 @@ val categoryList = listOf(
             ),
 
             ),
+        color = "#F5B041".convertIntoColor(),
+        createdAt = "",
+        updatedAt = ""
+    ),
+    TaskCategoryModel(
+        id = "4",
+        categoryName = "Android Jetpack",
+        taskList = listOf(),
         color = "#F5B041".convertIntoColor(),
         createdAt = "",
         updatedAt = ""
@@ -398,6 +441,7 @@ val tasksList = listOf(
         category = "Flutter",
         attachmentType = TaskAttachmentType.DOC,
         taskStatus = TaskStatus.IN_PROGRESS,
+        taskPriorityTAG = TaskPriorityTAG.URGENT,
         createdBy = currentUser,
         assignTo = listOf(
             currentUser
@@ -472,6 +516,7 @@ val tasksList = listOf(
         category = "Writing",
         attachmentType = TaskAttachmentType.LINK,
         taskStatus = TaskStatus.ON_HOLD,
+        taskPriorityTAG = TaskPriorityTAG.HIGH,
         createdBy = currentUser,
         assignTo = listOf(
             currentUser
@@ -490,6 +535,7 @@ val tasksList = listOf(
         category = "Ui/UX",
         attachmentType = TaskAttachmentType.IMAGE,
         taskStatus = TaskStatus.COMPLETED,
+        taskPriorityTAG = TaskPriorityTAG.LOW,
         createdBy = currentUser,
         assignTo = listOf(
             currentUser
@@ -508,6 +554,7 @@ val tasksList = listOf(
         category = "Backend Development",
         attachmentType = TaskAttachmentType.NONE,
         taskStatus = TaskStatus.IN_PROGRESS,
+        taskPriorityTAG = TaskPriorityTAG.MEDIUM,
         createdBy = fakeUser4,
         assignTo = listOf(
             fakeUser4

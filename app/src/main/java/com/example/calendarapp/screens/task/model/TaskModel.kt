@@ -15,6 +15,7 @@ data class TaskModel(
     val taskStatus: TaskStatus,
     val createdBy: UserModel,
     val assignTo: List<UserModel>,
+    val taskPriorityTAG: TaskPriorityTAG = TaskPriorityTAG.LOW,
     val startDate: String,
     val endDate: String?,
     val cratedAt: String,
@@ -28,5 +29,12 @@ enum class TaskStatus {
     IN_REVIEW,
     ON_HOLD,
     ON_CANCELED
-
 }
+
+enum class TaskPriorityTAG {
+    HIGH,
+    MEDIUM,
+    LOW,
+    URGENT
+}
+

@@ -15,8 +15,10 @@ class SharedTaskViewModel : ViewModel() {
 
     private var taskCategory by mutableStateOf<List<TaskCategoryModel>?>(null)
     private var taskList by mutableStateOf<List<TaskModel>?>(null)
+    private var searchedTaskList by mutableStateOf<List<TaskModel>?>(null)
     private var selectedCategoryColor by mutableStateOf<androidx.compose.ui.graphics.Color>(
-        primaryDarkColor)
+        primaryDarkColor
+    )
 
     init {
         taskCategory = categoryList
@@ -30,25 +32,29 @@ class SharedTaskViewModel : ViewModel() {
         return taskCategory
     }
 
-    fun setTaskListValue(list: List<TaskModel>) {
-        taskList = list
-    }
-
-    fun getTaskListValue(): List<TaskModel>? {
-        return taskList
-    }
-
-    fun changeTaskCategoryColor(index:Int,color:androidx.compose.ui.graphics.Color){
-        taskCategory?.let {
-            it[index].color=color
+    fun setTaskListValue(list: List<TaskModel>, isSearchTask: Boolean = false) {
+        if (isSearchTask) {
+            searchedTaskList = list
+        } else {
+            taskList = list
         }
     }
 
-    fun setCategoryColor(color:androidx.compose.ui.graphics.Color){
-        selectedCategoryColor=color
+    fun getTaskListValue(isSearchTask: Boolean = false): List<TaskModel>? {
+        return if (isSearchTask) searchedTaskList else taskList
     }
 
-    fun getCategoryColor():androidx.compose.ui.graphics.Color{
+    fun changeTaskCategoryColor(index: Int, color: androidx.compose.ui.graphics.Color) {
+        taskCategory?.let {
+            it[index].color = color
+        }
+    }
+
+    fun setCategoryColor(color: androidx.compose.ui.graphics.Color) {
+        selectedCategoryColor = color
+    }
+
+    fun getCategoryColor(): androidx.compose.ui.graphics.Color {
         return selectedCategoryColor
     }
 }
