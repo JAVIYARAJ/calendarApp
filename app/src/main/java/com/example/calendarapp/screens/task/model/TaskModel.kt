@@ -1,10 +1,7 @@
 package com.example.calendarapp.screens.task.model
 
-import android.os.Parcelable
 import com.example.calendarapp.screens.auth.model.UserModel
 import com.example.calendarapp.screens.calendar.TaskAttachmentType
-import kotlinx.parcelize.Parcelize
-
 
 data class TaskModel(
     val id: String,
@@ -21,6 +18,11 @@ data class TaskModel(
     val cratedAt: String,
     val updatedAt: String,
     val location: String?
+)
+
+data class TaskStatusModel(
+    val title:String,
+    val isSelected:Boolean=false
 )
 
 enum class TaskStatus {

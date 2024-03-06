@@ -29,8 +29,8 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -223,7 +223,7 @@ fun MonthView(yearValue: Int?, monthValue: Int?) {
                     }
                 }) {
                     Icon(
-                        Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                        Icons.Filled.KeyboardArrowRight,
                         "up_icon",
                         modifier = Modifier.size(30.dp),
                         tint = if (isSystemInDarkTheme()) primaryDarkColor else primaryLightColor

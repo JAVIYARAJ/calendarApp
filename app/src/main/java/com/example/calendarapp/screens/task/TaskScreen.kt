@@ -15,13 +15,23 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalDrawerSheet
+import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.rememberDrawerState
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -34,14 +44,17 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.calendarapp.R
 import com.example.calendarapp.screens.common.widgets.CustomScreenTopNavBar
 import com.example.calendarapp.screens.task.model.TaskStatus
+import com.example.calendarapp.screens.task.model.TaskStatusModel
 import com.example.calendarapp.screens.task.viewmodel.SharedTaskViewModel
 import com.example.calendarapp.screens.task.widgets.SearchBarTextFiled
 import com.example.calendarapp.screens.task.widgets.TaskCardWidget
@@ -63,12 +76,7 @@ fun TaskScreen(
 
     val keyboardController = LocalSoftwareKeyboardController.current
 
-    val filterModalSheetVisible by remember {
-        mutableStateOf(false)
-    }
-
-    val filterModalSheetState = rememberModalBottomSheetState()
-
+    val drawerState= rememberDrawerState(initialValue = DrawerValue.Closed)
 
     val focusRequester = remember {
         FocusRequester()
@@ -152,23 +160,72 @@ fun FilterTaskWidget() {
         val taskStatusList =
             listOf("Completed", "In Progress", "In Review", "On Hold", "On Canceled")
 
-        repeat(taskStatusList.size) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Checkbox(
-                    checked = true,
-                    onCheckedChange = {
-                    },
-                )
-                Spacer(modifier = Modifier.width(10.dp))
+        val taskStatusListState= listOf(
+            TaskStatusModel("Completed",false),
+            TaskStatusModel("In Progress",false),
+            TaskStatusModel("In Review",false),
+            TaskStatusModel("On Hold",false),
+            TaskStatusModel("On Canceled",false),
+        )
+
+        Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+            Row(modifier = Modifier.weight(7f), verticalAlignment = Alignment.CenterVertically) {
+                IconButton(onClick = {}) {
+                    Icon(
+                        imageVector = Icons.Default.ArrowBack,
+                        contentDescription = "",
+                        tint = Color.White
+                    )
+                }
                 Text(
-                    text = taskStatusList[it],
-                    style = MaterialTheme.typography.titleMedium.copy(
+                    text = "Filter",
+                    style = MaterialTheme.typography.titleLarge.copy(
+                        color = Color.White,
+                        fontFamily = robotoFontFamily
+                    )
+                )
+            }
+            TextButton(onClick = {
+
+            }) {
+                Text(
+                    text = "Done",
+                    style = MaterialTheme.typography.titleLarge.copy(
                         color = Color.White,
                         fontFamily = robotoFontFamily
                     )
                 )
             }
         }
+        Text(
+            text = "Task Status",
+            style = MaterialTheme.typography.headlineSmall.copy(
+                color = Color.White,
+                fontFamily = robotoFontFamily
+            ), modifier = Modifier.padding(horizontal = 10.dp)
+        )
+        repeat(taskStatusList.size) {
+            TaskStatusItemWidget(taskStatusModel = taskStatusListState[it])
+        }
     }
 }
 
+@Composable
+fun TaskStatusItemWidget(taskStatusModel: TaskStatusModel) {
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        Checkbox(
+            checked = taskStatusModel.isSelected,
+            onCheckedChange = {
+
+            },
+        )
+        Spacer(modifier = Modifier.width(10.dp))
+        Text(
+            text = taskStatusModel.title,
+            style = MaterialTheme.typography.titleMedium.copy(
+                color = Color.White,
+                fontFamily = robotoFontFamily
+            )
+        )
+    }
+}
